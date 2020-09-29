@@ -1,0 +1,26 @@
+  <div class="account-page">
+    <div class="container">
+      <h3 class="account-title">Dropy Admin</h3>
+      <div class="account-box">
+        <div class="account-wrapper">
+          <div class="account-logo">
+            <a href="javascript:"><img src="assets/img/logo2.png" alt="Dropy"></a>
+          </div>
+          <form #login="ngForm" (ngSubmit)="clickLogin(login)" novalidate>
+            <div class="form-group">
+              <input class="form-control floating" type="text" name="username" [(ngModel)]="userlogin.use_username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+              <input class="form-control floating" type="password" name="password" [(ngModel)]="userlogin.use_password" placeholder="Password" required>
+            </div>
+            <div class="form-group text-center">
+              <button class="btn btn-primary btn-block account-btn" type="submit">Login</button>
+            </div>
+              <div *ngIf="loginValidation" class="alert alert-warning">
+                <strong>แจ้งเตือน!</strong> {{loginMass}}
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
