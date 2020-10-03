@@ -1,0 +1,218 @@
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-xs-4">
+        <h4 class="page-title">บทความ</h4>
+      </div>
+      <div class="col-xs-8 text-right m-b-30">
+        <a href="javascript:" class="btn btn-primary rounded" (click)="clickShowAddMember()"><i class="fa fa-plus"></i>
+          เพิ่มบทความ</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive bottom40">
+          <table datatable [dtOptions]="dtOptions" class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 80px">รหัส</th>
+                <th>อีเมล</th>
+                <th>ชื่อ</th>
+                <th>นามสกุล</th>
+                <th style="width: 30px">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let blog of blogs">
+                <td>{{ blog.mem_id }}</td>
+                <td>{{ blog.mem_email }}</td>
+                <td>{{ blog.mem_fname }}</td>
+                <td>{{ blog.mem_lname }}</td>
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a href="javascript:" (click)="clickShowEditMember(blog)"><i class="fa fa-pencil m-r-5"></i>
+                          แก้ไข</a></li>
+                      <!-- <li><a href="javascript:" (click)="clickDeleteCustomer(member)"><i
+                            class="fa fa-trash-o m-r-5"></i>
+                          ลบ</a></li> -->
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="blogs?.length == 0">
+                <td colspan="4" class="no-data-available">ไม่พบข้อมูล!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="add_member" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">เพิ่มสมาชิก</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30" #addForm="ngForm" (ngSubmit)="clickAddMember(addForm)" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">อีเมล <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_email" [(ngModel)]="addM.mem_email" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">ชื่อ <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_fname" [(ngModel)]="addM.mem_fname" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">เพศ <span class="text-danger">*</span></label>
+                  <select class="form-control" name="mem_sex" [(ngModel)]="addM.mem_sex" required>
+                    <option value="M">ชาย</option>
+                    <option value="F">หญิง</option>
+                    <option value="O">อื่น ๆ</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label">รหัสผ่าน <span class="text-danger">*</span></label>
+                  <input class="form-control" type="password" name="mem_password" [(ngModel)]="addM.mem_password" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label">รับข่าวสาร </label>
+                  &nbsp;
+                  <input type="checkbox" name="mem_newsletter" [(ngModel)]="addM.mem_newsletter">
+                </div>
+
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">หมายเลขโทรศัพท์ <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_tel" [(ngModel)]="addM.mem_tel" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">นามสกุล <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_lname" [(ngModel)]="addM.mem_lname" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">วัน/เดือน/ปี เกิด <span class="text-danger">*</span></label>
+                  <input type="date" class="form-control" name="mem_birthday" [(ngModel)]="addM.mem_birthday" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
+                  <input class="form-control" type="password" name="mem_password_confirm"
+                    [(ngModel)]="addM.mem_password_confirm" required>
+                </div>
+
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="addValidation" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{massAdd}}
+              </div>
+              <button class="btn btn-primary" type="submit">เพิ่มสมาชิก</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="edit_member" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">แก้ไขสมาชิก {{uptM.mem_email}}</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30" #editForm="ngForm" (ngSubmit)="clickEditMember(editForm)" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">อีเมล <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_email" [(ngModel)]="uptM.mem_email" required
+                    readonly>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">ชื่อ <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_fname" [(ngModel)]="uptM.mem_fname" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">เพศ <span class="text-danger">*</span></label>
+                  <select class="form-control" name="mem_sex" [(ngModel)]="uptM.mem_sex" required>
+                    <option value="M">ชาย</option>
+                    <option value="F">หญิง</option>
+                    <option value="O">อื่น ๆ</option>
+                  </select>
+                </div>
+            
+                <div class="form-group">
+                  <label class="control-label">รับข่าวสาร </label>
+                  &nbsp;
+                  <input type="checkbox" name="mem_newsletter" [(ngModel)]="uptM.mem_newsletter">
+                </div>
+
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">หมายเลขโทรศัพท์ <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_tel" [(ngModel)]="uptM.mem_tel" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">นามสกุล <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_lname" [(ngModel)]="uptM.mem_lname" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">วัน/เดือน/ปี เกิด <span class="text-danger">*</span></label>
+                  <input type="date" class="form-control" name="mem_birthday" [(ngModel)]="uptM.mem_birthday" required>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">เปลี่ยนรหัสผ่าน </label>
+                  &nbsp;
+                  <input type="checkbox" name="mem_changepass" [(ngModel)]="uptM.mem_changepass">
+                </div>
+              </div>
+
+              <div class="col-md-6" *ngIf="uptM.mem_changepass">
+                <div class="form-group">
+                  <label class="control-label">รหัสผ่าน <span class="text-danger">*</span></label>
+                  <input class="form-control" type="password" name="mem_password" [(ngModel)]="uptM.mem_password">
+                </div>
+              </div>
+              <div class="col-md-6" *ngIf="uptM.mem_changepass">
+
+                <div class="form-group">
+                  <label class="control-label">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
+                  <input class="form-control" type="password" name="mem_password_confirm"
+                    [(ngModel)]="uptM.mem_password_confirm">
+                </div>
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="editValidation" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{massEdit}}
+              </div>
+              <button class="btn btn-primary" type="submit">แก้ไขสมาชิก</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
