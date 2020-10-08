@@ -33,7 +33,7 @@ export class LoginPageComponent implements OnInit {
         if (res.success) {
 
           localStorage.setItem("auth", res.success);
-          localStorage.setItem("id", res.data.user.id);
+          localStorage.setItem("id_admin", res.data.user.id);
           localStorage.setItem("name", res.data.user.name);
           localStorage.setItem("email", res.data.user.email);
           localStorage.setItem("token", res.data.token);

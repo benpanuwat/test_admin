@@ -1,0 +1,198 @@
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-xs-4">
+        <h4 class="page-title">ตรวจสอบการชำระเงิน</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive bottom40">
+          <table datatable [dtOptions]="dtOptions" class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 80px">รหัส</th>
+                <th>วันที่ชำระเงิน</th>
+                <th>ชื่อ</th>
+                <th>เบอร์โทรศัพท์</th>
+                <th>จำนวนเงิน</th>
+                <th style="width: 100px">สถานะ</th>
+                <th style="width: 30px">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let payment of payments">
+                <td>{{ payment.pay_id }}</td>
+                <td>{{ payment.pay_createdate}}</td>
+                <td>{{ payment.mem_fname }} {{ payment.mem_lname }}</td>
+                <td>{{ payment.mem_tel }}</td>
+                <td>{{ payment.pay_amount| currency:' ' }}</td>
+                <td>
+                  <span *ngIf="payment.pay_status == 'new'" class="label label-info-border">New</span>
+                  <span *ngIf="payment.pay_status == 'accept'" class="label label-success-border">Accept</span>
+                  <span *ngIf="payment.pay_status == 'reject'" class="label label-danger-border">Reject</span>
+                </td>
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a href="javascript:" (click)="clickShowAcceptPayment(payment)"><i
+                            class="fa fa-search m-r-5"></i>
+                          ตรวจสอบ</a></li>
+                      <!-- <li><a href="javascript:" (click)="clickDeleteCustomer(member)"><i
+                            class="fa fa-trash-o m-r-5"></i>
+                          ลบ</a></li> -->
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="payments?.length == 0">
+                <td colspan="4" class="no-data-available">ไม่พบข้อมูล!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="payment_accept" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">ตรวจสอบการชำระเงิน</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12" *ngIf="paymentsDetail.orders.length">
+              <h5><b>รายการสั่งซื้อ</b></h5>
+              <table class="table table-striped custom-table">
+                <thead>
+                  <tr>
+                    <th>รหัส</th>
+                    <th>ชื่อสินค้า</th>
+                    <th style="text-align: right;">ราคา</th>
+                    <th style="text-align: right;">จำนวน</th>
+                    <th style="text-align: right;">ค่าจัดส่ง</th>
+                    <th style="text-align: right;">ราคารวม</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of paymentsDetail.orders">
+                    <td>{{ order.ord_id }}</td>
+                    <td>{{ order.pro_id }}</td>
+                    <td style="text-align: right;">{{ order.ord_price | currency:' '}}</td>
+                    <td style="text-align: right;">{{ order.ord_count }}</td>
+                    <td style="text-align: right;">{{ order.logistic.logi_price| currency:' ' }}</td>
+                    <td style="text-align: right;">{{ order.total| currency:' '}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-12" *ngIf="paymentsDetail.orders_agent.length">
+              <h5><b>รายการสั่งซื้อแบบดรอปชิปเปอร์</b></h5>
+              <table class="table table-striped custom-table">
+                <thead>
+                  <tr>
+                    <th>รหัส</th>
+                    <th>ชื่อสินค้า</th>
+                    <th style="text-align: right;">ราคา</th>
+                    <th style="text-align: right;">จำนวน</th>
+                    <th style="text-align: right;">ค่าจัดส่ง</th>
+                    <th style="text-align: right;">ราคารวม</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let order of paymentsDetail.orders_agent">
+                    <td>{{ order.orda_id }}</td>
+                    <td>{{ order.pro_id }}</td>
+                    <td style="text-align: right;">{{ order.orda_price | currency:' '}}</td>
+                    <td style="text-align: right;">{{ order.orda_count }}</td>
+                    <td style="text-align: right;">{{ order.logistic.logi_price| currency:' ' }}</td>
+                    <td style="text-align: right;">{{ order.total| currency:' '}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <h5><b>ภาพสลิป</b></h5>
+              <img [src]="paymentsDetail.pay_slip" width="300" style="padding: 5px;margin: 0 auto;">
+            </div>
+            <div class="col-md-6">
+              <h5><b>สรุป</b></h5>
+              <table class="table table-striped custom-table">
+                <tbody>
+                  <tr>
+                    <td><b>ราคาสินค้าทั้งหมด</b></td>
+                    <td style="text-align: right;">{{total.price_total| currency:' '}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>ค่าจัดส่งทั้งหมด</b></td>
+                    <td style="text-align: right;">{{total.logi_total| currency:' '}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>ยอดเงินที่ต้องชำระ</b></td>
+                    <td style="text-align: right;">{{total.grand_total| currency:' '}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">อีเมล <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_email" [(ngModel)]="uptM.mem_email" required
+                    readonly>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">ชื่อ <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_fname" [(ngModel)]="uptM.mem_fname" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">เพศ <span class="text-danger">*</span></label>
+                  <select class="form-control" name="mem_sex" [(ngModel)]="uptM.mem_sex" required>
+                    <option value="M">ชาย</option>
+                    <option value="F">หญิง</option>
+                    <option value="O">อื่น ๆ</option>
+                  </select>
+                </div>
+            
+                <div class="form-group">
+                  <label class="control-label">รับข่าวสาร </label>
+                  &nbsp;
+                  <input type="checkbox" name="mem_newsletter" [(ngModel)]="uptM.mem_newsletter">
+                </div>
+
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">หมายเลขโทรศัพท์ <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_tel" [(ngModel)]="uptM.mem_tel" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">นามสกุล <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_lname" [(ngModel)]="uptM.mem_lname" required>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">วัน/เดือน/ปี เกิด <span class="text-danger">*</span></label>
+                  <input type="date" class="form-control" name="mem_birthday" [(ngModel)]="uptM.mem_birthday" required>
+                </div>
+              </div> -->
+          </div>
+
+          <div class="m-t-20 text-center">
+            <div *ngIf="addValidation" class="alert alert-info m-t-10">
+              <strong>แจ้งเตือน!</strong> {{massAdd}}
+            </div>
+            <button class="btn btn-success" type="button" style="margin: 5px;"
+              (click)="clickShowAcceptPayment()">ยืนยันการชำระเงิน</button>
+            <button class="btn btn-danger" type="button" style="margin: 5px;"
+              (click)="clickShowAcceptPayment()">ยกเลิกการชำระเงิน</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

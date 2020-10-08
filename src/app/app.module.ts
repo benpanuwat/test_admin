@@ -22,6 +22,7 @@ import { LoginPageComponent } from './login/login.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { MemberComponent } from './member/member.component';
+import { PaymentComponent } from './payment/payment.component';
 
 enableProdMode();
 
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
   { path: 'member', component: MemberComponent, canActivate: [AuthGuard] },
+  { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'login' }
 ];
 
@@ -39,7 +41,8 @@ const routes: Routes = [
     SidebarComponent,
     HeaderComponent,
     MemberComponent,
-    NumberDirective
+    NumberDirective,
+    PaymentComponent
   ],
   imports: [
     HttpClientModule,

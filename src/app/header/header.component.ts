@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit,AfterViewInit {
 
   ngOnInit() {
 
-    this.use.id = localStorage.getItem('id');
+    this.use.id = localStorage.getItem('id_admin');
     this.use.name = localStorage.getItem('name');
     
     this.opts1 = {

@@ -68,15 +68,15 @@ export class MemberComponent implements OnInit {
       },
       ajax: (dataTablesParameters: any, callback) => {
 
-        dataTablesParameters.mem_id = localStorage.getItem('id');
+        dataTablesParameters.mem_id = localStorage.getItem('id_admin');
         dataTablesParameters.userlogin = {
-          id: localStorage.getItem('id'),
+          id: localStorage.getItem('id_admin'),
           name: localStorage.getItem('name'),
           email: localStorage.getItem('email')
         };
 
         this.http
-          .post<DataTablesResponse>(this.appserver.server + '/member/get_member.php', dataTablesParameters, { headers: this.headers })
+          .post<DataTablesResponse>(this.appserver.server + '/member/get_member_table.php', dataTablesParameters, { headers: this.headers })
           .subscribe(resp => {
             this.members = resp.data;
 
@@ -144,9 +144,9 @@ export class MemberComponent implements OnInit {
     else {
       this.addValidation = false;
 
-      this.addM.mem_id = localStorage.getItem('id');
+      this.addM.mem_id = localStorage.getItem('id_admin');
       this.addM.userlogin = {
-        id: localStorage.getItem('id'),
+        id: localStorage.getItem('id_admin'),
         name: localStorage.getItem('name'),
         email: localStorage.getItem('email')
       };
@@ -167,9 +167,9 @@ export class MemberComponent implements OnInit {
     this.uptM.mem_password_confirm = "";
     this.uptM.mem_changepass = false;
     
-    this.uptM.mem_id = localStorage.getItem('id');
+    this.uptM.mem_id = localStorage.getItem('id_admin');
     this.uptM.userlogin = {
-      id: localStorage.getItem('id'),
+      id: localStorage.getItem('id_admin'),
       name: localStorage.getItem('name'),
       email: localStorage.getItem('email')
     };

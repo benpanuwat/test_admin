@@ -11,6 +11,9 @@
               <li [ngClass]="url === 'member'? 'active' : 'null'">
                 <a routerLink="member"><i class="la la-users"></i> <span> สมาชิก </span></a>
               </li>
+              <li [ngClass]="url === 'payment'? 'active' : 'null'">
+                <a routerLink="payment"><i class="la la-dollar-sign"></i> <span> ชำระเงิน </span></a>
+              </li>
               <!-- <li *ngIf="permission.use_product_view == '1'" [ngClass]="url === 'product'? 'active' : 'null'">
                 <a routerLink="product"><i class="la la-box"></i> <span> Product </span></a>
               </li>
