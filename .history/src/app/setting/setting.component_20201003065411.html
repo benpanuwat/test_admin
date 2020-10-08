@@ -1,0 +1,175 @@
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-xs-4">
+        <h4 class="page-title">บทความ</h4>
+      </div>
+      <div class="col-xs-8 text-right m-b-30">
+        <a href="javascript:" class="btn btn-primary rounded" (click)="clickShowAddMember()"><i class="fa fa-plus"></i>
+          เพิ่มบทความ</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive bottom40">
+          <table datatable [dtOptions]="dtOptions" class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 80px">รหัส</th>
+                <th>ชื่อบทความ</th>
+                <th>หมวดหมู่</th>
+                <th>แท็ก</th>
+                <th style="width: 30px">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let blog of blogs">
+                <td>{{ blog.blog_id }}</td>
+                <td>{{ blog.blog_name }}</td>
+                <td>{{ blog.cat_name }}</td>
+                <td>{{ blog.tags }}</td>
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a href="javascript:" (click)="clickShowEditMember(blog)"><i class="fa fa-pencil m-r-5"></i>
+                          แก้ไข</a></li>
+                      <!-- <li><a href="javascript:" (click)="clickDeleteCustomer(member)"><i
+                            class="fa fa-trash-o m-r-5"></i>
+                          ลบ</a></li> -->
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="blogs?.length == 0">
+                <td colspan="4" class="no-data-available">ไม่พบข้อมูล!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Department Modal -->
+  <div id="add" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+            <div class="form-group">
+              <label>Main Category<span class="text-danger">*</span></label>
+              <select id="a_cat_id" class="form-control">
+                                    <option value="1">
+                  Forklift Parts/อะไหล่รถฟอร์คลิฟท์										</option>
+                                    <option value="2">
+                  Agricultuaral Parts/อะไหล่จักรกลการเกษตร										</option>
+                                    <option value="3">
+                  Forklift Truck/รถฟอร์คลิฟท์
+                </option>
+                                  </select>
+            </div>
+            <div class="form-group">
+              <label>Category Name (Thailand)<span class="text-danger">*</span></label>
+              <input id="a_name_th" class="form-control" value="" type="text">
+            </div>
+            <div class="form-group">
+              <label>Category Name (English)<span class="text-danger">*</span></label>
+              <input id="a_name_en" class="form-control" value="" type="text">
+            </div>
+            <div class="form-group">
+              <label>Image <span class="text-danger">*</span></label>
+              <input id="a_logo" class="form-control" value="" type="file">
+            </div>
+            <div class="submit-section">
+              <button class="btn btn-primary submit-btn">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Add Department Modal -->
+
+  <!-- Edit Department Modal -->
+  <div id="edit" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label>Main Category<span class="text-danger">*</span></label>
+              <select id="e_cat_id" class="form-control">
+                                    <option value="1">
+                  Forklift Parts/อะไหล่รถฟอร์คลิฟท์										</option>
+                                    <option value="2">
+                  Agricultuaral Parts/อะไหล่จักรกลการเกษตร										</option>
+                                    <option value="3">
+                  Forklift Truck/รถฟอร์คลิฟท์
+                </option>
+                                  </select>
+            </div>
+            <div class="form-group">
+              <label>Category Name (Thailand)<span class="text-danger">*</span></label>
+              <input id="e_name_th" class="form-control" value="" type="text">
+            </div>
+            <div class="form-group">
+              <label>Category Name (English)<span class="text-danger">*</span></label>
+              <input id="e_name_en" class="form-control" value="" type="text">
+            </div>
+            <div class="form-group">
+              <label>Image <span class="text-danger">*</span></label>
+              <input id="e_logo" class="form-control" value="" type="file">
+            </div>
+            <div class="submit-section">
+              <button class="btn btn-primary submit-edit">Save</button>
+            </div>
+            <input type="hidden" id="e_id">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Edit Department Modal -->
+
+  <!-- Delete Department Modal -->
+  <div class="modal custom-modal fade" id="delete" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="form-header">
+            <h3>Delete Category</h3>
+            <p>Are you sure want to delete?</p>
+          </div>
+          <div class="modal-btn delete-action">
+            <div class="row">
+              <div class="col-6">
+                <a href="javascript:void(0);" onclick="delCategory();" class="btn btn-primary continue-btn">Delete</a>
+              </div>
+              <div class="col-6">
+                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+              </div>
+              <input type="hidden" id="d_id">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Delete Department Modal -->
+
+</div>
