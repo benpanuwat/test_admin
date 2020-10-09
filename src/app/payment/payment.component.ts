@@ -136,8 +136,6 @@ export class PaymentComponent implements OnInit {
           that.total.logi_total += parseInt(orda.logistic.logi_price);
           that.total.grand_total += parseInt(orda.total);
         });
-
-        console.log(this.paymentsDetail);
       }
     });
 
@@ -145,6 +143,38 @@ export class PaymentComponent implements OnInit {
   }
 
 
-  clickAcceptPayment(f) {
+  clickAcceptPayment(paymentsDetail) {
+
+    paymentsDetail.mem_id = localStorage.getItem('id_admin');
+    paymentsDetail.userlogin = {
+      id: localStorage.getItem('id_admin'),
+      name: localStorage.getItem('name'),
+      email: localStorage.getItem('email')
+    };
+
+    this.http.post<any>(this.appserver.server + '/payment/accept_payment.php', paymentsDetail, { headers: this.headers }).subscribe(data => {
+      if (data.success) {
+        this.rerender();
+        $('#payment_accept').modal('hide');
+      }
+    });
+
+  }
+
+  clickRejectPayment(paymentsDetail) {
+    
+    paymentsDetail.mem_id = localStorage.getItem('id_admin');
+    paymentsDetail.userlogin = {
+      id: localStorage.getItem('id_admin'),
+      name: localStorage.getItem('name'),
+      email: localStorage.getItem('email')
+    };
+
+    this.http.post<any>(this.appserver.server + '/payment/reject_payment.php', paymentsDetail, { headers: this.headers }).subscribe(data => {
+      if (data.success) {
+        this.rerender();
+        $('#payment_accept').modal('hide');
+      }
+    });
   }
 }

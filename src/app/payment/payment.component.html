@@ -48,7 +48,7 @@
                 </td>
               </tr>
               <tr *ngIf="payments?.length == 0">
-                <td colspan="4" class="no-data-available">ไม่พบข้อมูล!</td>
+                <td colspan="7" class="no-data-available">ไม่พบข้อมูล!</td>
               </tr>
             </tbody>
           </table>
@@ -87,7 +87,7 @@
                     <td style="text-align: right;">{{ order.ord_price | currency:' '}}</td>
                     <td style="text-align: right;">{{ order.ord_count }}</td>
                     <td style="text-align: right;">{{ order.logistic.logi_price| currency:' ' }}</td>
-                    <td style="text-align: right;">{{ order.total| currency:' '}}</td>
+                    <td style="text-align: right;"><u>{{ order.total| currency:' '}}</u></td>
                   </tr>
                 </tbody>
               </table>
@@ -112,7 +112,7 @@
                     <td style="text-align: right;">{{ order.orda_price | currency:' '}}</td>
                     <td style="text-align: right;">{{ order.orda_count }}</td>
                     <td style="text-align: right;">{{ order.logistic.logi_price| currency:' ' }}</td>
-                    <td style="text-align: right;">{{ order.total| currency:' '}}</td>
+                    <td style="text-align: right;"><u>{{ order.total| currency:' '}}</u></td>
                   </tr>
                 </tbody>
               </table>
@@ -135,51 +135,11 @@
                   </tr>
                   <tr>
                     <td><b>ยอดเงินที่ต้องชำระ</b></td>
-                    <td style="text-align: right;">{{total.grand_total| currency:' '}}</td>
+                    <td style="text-align: right;"><u>{{total.grand_total| currency:' '}}</u></td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <!-- <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label">อีเมล <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="mem_email" [(ngModel)]="uptM.mem_email" required
-                    readonly>
-                </div>
-                <div class="form-group">
-                  <label class="control-label">ชื่อ <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="mem_fname" [(ngModel)]="uptM.mem_fname" required>
-                </div>
-                <div class="form-group">
-                  <label class="control-label">เพศ <span class="text-danger">*</span></label>
-                  <select class="form-control" name="mem_sex" [(ngModel)]="uptM.mem_sex" required>
-                    <option value="M">ชาย</option>
-                    <option value="F">หญิง</option>
-                    <option value="O">อื่น ๆ</option>
-                  </select>
-                </div>
-            
-                <div class="form-group">
-                  <label class="control-label">รับข่าวสาร </label>
-                  &nbsp;
-                  <input type="checkbox" name="mem_newsletter" [(ngModel)]="uptM.mem_newsletter">
-                </div>
-
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="control-label">หมายเลขโทรศัพท์ <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="mem_tel" [(ngModel)]="uptM.mem_tel" required>
-                </div>
-                <div class="form-group">
-                  <label class="control-label">นามสกุล <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="mem_lname" [(ngModel)]="uptM.mem_lname" required>
-                </div>
-                <div class="form-group">
-                  <label class="control-label">วัน/เดือน/ปี เกิด <span class="text-danger">*</span></label>
-                  <input type="date" class="form-control" name="mem_birthday" [(ngModel)]="uptM.mem_birthday" required>
-                </div>
-              </div> -->
           </div>
 
           <div class="m-t-20 text-center">
@@ -187,9 +147,9 @@
               <strong>แจ้งเตือน!</strong> {{massAdd}}
             </div>
             <button class="btn btn-success" type="button" style="margin: 5px;"
-              (click)="clickShowAcceptPayment()">ยืนยันการชำระเงิน</button>
+              (click)="clickAcceptPayment(paymentsDetail)">ยืนยันการชำระเงิน</button>
             <button class="btn btn-danger" type="button" style="margin: 5px;"
-              (click)="clickShowAcceptPayment()">ยกเลิกการชำระเงิน</button>
+              (click)="clickRejectPayment(paymentsDetail)">ยกเลิกการชำระเงิน</button>
           </div>
         </div>
       </div>
