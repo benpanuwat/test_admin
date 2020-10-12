@@ -20,8 +20,7 @@ export class AppComponent implements OnInit {
     router.events.subscribe((event: Event) => {
 
       if (event instanceof NavigationEnd) {
-        this.url = event.url.split('/')[1];
-        this.url2 = event.url.split('/')[2];
+        this.url = event.url.split('/')[1].split("?")[0];
         //console.log(this.url);
 
       }

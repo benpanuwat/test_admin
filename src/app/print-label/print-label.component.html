@@ -1,0 +1,165 @@
+<div style="width: 100%;text-align: center;color: black;font-family: Tahoma;background-color: white;">
+  <div class="page" style="width: 500px;" *ngFor="let order of orders">
+
+      <div style="width: 500px;">
+          <p style="font-size: 36px;"><strong>
+                  {{order.ord_label[1][0]}}-<span
+                      style="font-size: 48px;">{{order.ord_label[1][1]}}</span>-{{order.ord_label[1][2]}}</strong></p>
+      </div>
+
+      <div style="width: 500px;">
+          <ngx-barcode [bc-value]="order.ord_label[0]" [bc-height]="50"></ngx-barcode>
+          <p style="font-size: 18px;"><strong>{{order.ord_label[0]}}</strong></p>
+      </div>
+
+      <div style="width: 500px;">
+          <table style="width: 480px;margin: 0 auto;text-align: left;">
+              <tr>
+                  <td colspan="3">
+                      <div style="font-size: 24px;padding: 5px;">DST <strong>{{order.ord_label[2]}}</strong></div>
+                  </td>
+              </tr>
+              <tr>
+                  <td colspan="2">
+                      <div style="font-size: 16px;padding: 5px;">ผู้ส่ง
+                          {{order.sho_name}}&nbsp;&nbsp;&nbsp;{{order.sho_tel}}</div>
+                      <div style="font-size: 14px;padding: 5px;">
+                          {{order.sho_others}}&nbsp;&nbsp;{{order.sho_district}}&nbsp;&nbsp;{{order.sho_amphoe}}&nbsp;&nbsp;{{order.sho_province}}&nbsp;&nbsp;{{order.sho_zipcode}}
+                      </div>
+                  </td>
+                  <td style="width: 120px;background-color: black;text-align: center;">
+                      <p style="font-size: 48px;padding: 5px;color: white;"><strong>{{order.ord_label[3]}}</strong>
+                      </p>
+                  </td>
+              </tr>
+              <tr>
+                  <td colspan="3">
+                      <div style="font-size: 16px;padding: 5px;">ผู้รับ
+                          <strong>{{order.add_name}}&nbsp;&nbsp;&nbsp;{{order.add_tel}}</strong></div>
+                      <div style="font-size: 14px;padding: 5px;">
+                          <strong>{{order.add_others}}&nbsp;&nbsp;{{order.add_district}}&nbsp;&nbsp;{{order.add_amphoe}}&nbsp;&nbsp;{{order.add_province}}&nbsp;&nbsp;{{order.add_zipcode}}</strong>
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="width: 50%;">
+                      <div style="font-size: 14px;padding: 5px;"><strong>เก็บเงินค่าสินค้า</strong></div>
+                  </td>
+                  <td colspan="2">
+                      <div style="font-size: 14px;padding: 5px;" *ngIf="order.ord_cod == '1'"><strong>COD</strong>
+                      </div>
+                      <div style="font-size: 14px;padding: 5px;" *ngIf="order.ord_cod == '0'">
+                          <strong>ชำระแล้ว</strong></div>
+                  </td>
+              </tr>
+          </table>
+      </div>
+
+      <div style="margin-top: 10px;width: 500px;">
+          <div style="width: 480px;margin: 0 auto;text-align: right;">
+              <ngx-barcode [bc-value]="order.ord_label[0]" [bc-height]="50"></ngx-barcode>
+              <p style="font-size: 18px;margin-right: 10px;"><strong>{{order.ord_label[0]}}</strong></p>
+          </div>
+      </div>
+
+      <div style="width: 500px;margin-bottom: 10px;">
+          <table style="width: 480px;margin: 0 auto;text-align: left;">
+              <tr>
+                  <td>
+                      <div style="font-size: 16px;padding: 5px;">ผู้รับ
+                          {{order.add_name}}&nbsp;&nbsp;&nbsp;{{order.add_tel}}</div>
+                      <div style="font-size: 14px;padding: 5px;">
+                          {{order.add_others}}&nbsp;&nbsp;{{order.add_district}}&nbsp;&nbsp;{{order.add_amphoe}}&nbsp;&nbsp;{{order.add_province}}&nbsp;&nbsp;{{order.add_zipcode}}
+                      </div>
+                  </td>
+                  <td style="width: 25%;vertical-align: top;">
+                      <div style="font-size: 16px;padding: 5px;">ลายเซ็นผู้รับ</div>
+                  </td>
+              </tr>
+          </table>
+      </div>
+
+  </div>
+
+  <div class="page" style="width: 500px;" *ngFor="let order_agent of orders_agent">
+
+      <div style="width: 500px;">
+          <p style="font-size: 36px;"><strong>
+                  {{order_agent.orda_label[1][0]}}-<span
+                      style="font-size: 48px;">{{order_agent.orda_label[1][1]}}</span>-{{order_agent.orda_label[1][2]}}</strong></p>
+      </div>
+
+      <div style="width: 500px;">
+          <ngx-barcode [bc-value]="order_agent.orda_label[0]" [bc-height]="50"></ngx-barcode>
+          <p style="font-size: 18px;"><strong>{{order_agent.orda_label[0]}}</strong></p>
+      </div>
+
+      <div style="width: 500px;">
+          <table style="width: 480px;margin: 0 auto;text-align: left;">
+              <tr>
+                  <td colspan="3">
+                      <div style="font-size: 24px;padding: 5px;">DST <strong>{{order_agent.orda_label[2]}}</strong></div>
+                  </td>
+              </tr>
+              <tr>
+                  <td colspan="2">
+                      <div style="font-size: 16px;padding: 5px;">ผู้ส่ง
+                          {{order_agent.add_name}}&nbsp;&nbsp;&nbsp;{{order_agent.add_tel}}</div>
+                      <div style="font-size: 14px;padding: 5px;">
+                          {{order_agent.add_others}}&nbsp;&nbsp;{{order_agent.add_district}}&nbsp;&nbsp;{{order_agent.add_amphoe}}&nbsp;&nbsp;{{order_agent.add_province}}&nbsp;&nbsp;{{order_agent.add_zipcode}}
+                      </div>
+                  </td>
+                  <td style="width: 120px;background-color: black;text-align: center;">
+                      <p style="font-size: 48px;padding: 5px;color: white;"><strong>{{order_agent.orda_label[3]}}</strong>
+                      </p>
+                  </td>
+              </tr>
+              <tr>
+                  <td colspan="3">
+                      <div style="font-size: 16px;padding: 5px;">ผู้รับ
+                          <strong>{{order_agent.orda_name}}&nbsp;&nbsp;&nbsp;{{order_agent.orda_tel}}</strong></div>
+                      <div style="font-size: 14px;padding: 5px;">
+                          <strong>{{order_agent.orda_others}}&nbsp;&nbsp;{{order_agent.orda_district}}&nbsp;&nbsp;{{order_agent.orda_amphoe}}&nbsp;&nbsp;{{order_agent.orda_province}}&nbsp;&nbsp;{{order_agent.orda_zipcode}}</strong>
+                      </div>
+                  </td>
+              </tr>
+              <tr>
+                  <td style="width: 50%;">
+                      <div style="font-size: 14px;padding: 5px;"><strong>เก็บเงินค่าสินค้า</strong></div>
+                  </td>
+                  <td colspan="2">
+                      <div style="font-size: 14px;padding: 5px;" *ngIf="order_agent.orda_cod == '1'"><strong>COD</strong>
+                      </div>
+                      <div style="font-size: 14px;padding: 5px;" *ngIf="order_agent.orda_cod == '0'">
+                          <strong>ชำระแล้ว</strong></div>
+                  </td>
+              </tr>
+          </table>
+      </div>
+
+      <div style="margin-top: 10px;width: 500px;">
+          <div style="width: 480px;margin: 0 auto;text-align: right;">
+              <ngx-barcode [bc-value]="order_agent.orda_label[0]" [bc-height]="50"></ngx-barcode>
+              <p style="font-size: 18px;margin-right: 10px;"><strong>{{order_agent.orda_label[0]}}</strong></p>
+          </div>
+      </div>
+
+      <div style="width: 500px;margin-bottom: 10px;">
+          <table style="width: 480px;margin: 0 auto;text-align: left;">
+              <tr>
+                  <td>
+                      <div style="font-size: 16px;padding: 5px;">ผู้รับ
+                          {{order_agent.orda_name}}&nbsp;&nbsp;&nbsp;{{order_agent.orda_tel}}</div>
+                      <div style="font-size: 14px;padding: 5px;">
+                          {{order_agent.orda_others}}&nbsp;&nbsp;{{order_agent.orda_district}}&nbsp;&nbsp;{{order_agent.orda_amphoe}}&nbsp;&nbsp;{{order_agent.orda_province}}&nbsp;&nbsp;{{order_agent.orda_zipcode}}
+                      </div>
+                  </td>
+                  <td style="width: 25%;vertical-align: top;">
+                      <div style="font-size: 16px;padding: 5px;">ลายเซ็นผู้รับ</div>
+                  </td>
+              </tr>
+          </table>
+      </div>
+
+  </div>
+</div>

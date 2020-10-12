@@ -1,0 +1,24 @@
+@media print {
+  @page {
+    margin: 0;
+  }
+
+  .page {
+    page-break-after: always;
+    margin-bottom: 20px;
+  }
+
+
+}
+
+.page {
+  page-break-after: always;
+  margin-bottom: 20px;
+  border: 1px solid black;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+}

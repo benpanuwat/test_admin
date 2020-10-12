@@ -3,14 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AppService } from 'src/app/app.service';
 import { DataTablesResponse } from '../model/datatables-response';
 import { DataTableDirective } from 'angular-datatables';
-import { Order } from '../model/order';
+import { OrderAgent } from '../model/order-agent';
 
 @Component({
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css']
+  selector: 'app-order-agent',
+  templateUrl: './order-agent.component.html',
+  styleUrls: ['./order-agent.component.css']
 })
-export class OrderComponent implements OnInit {
+export class OrderAgentComponent implements OnInit {
 
   public headers: HttpHeaders;
 
@@ -18,11 +18,11 @@ export class OrderComponent implements OnInit {
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
 
-  orders: Order[];
+  order_agents: OrderAgent[];
 
   constructor(private http: HttpClient, private appserver: AppService) { }
 
-  loadDataOrder() {
+  loadDataOrderAgent() {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -55,9 +55,9 @@ export class OrderComponent implements OnInit {
         };
 
         this.http
-          .post<DataTablesResponse>(this.appserver.server + '/order/get_order_table.php', dataTablesParameters, { headers: this.headers })
+          .post<DataTablesResponse>(this.appserver.server + '/order/get_order_agents_table.php', dataTablesParameters, { headers: this.headers })
           .subscribe(resp => {
-            this.orders = resp.data;
+            this.order_agents = resp.data;
 
             callback({
               recordsTotal: resp.recordsTotal,
@@ -67,14 +67,14 @@ export class OrderComponent implements OnInit {
           });
       },
       columns: [
-        { data: "ord_id" },
-        { data: "ord_createdate" },
+        { data: "orda_id" },
+        { data: "orda_createdate" },
         { data: "pro_name" },
         { data: "prot_name" },
-        { data: "ord_price" },
-        { data: "ord_count" },
-        { data: "ord_logi_price" },
-        { data: "ord_status" },
+        { data: "orda_price" },
+        { data: "orda_count" },
+        { data: "orda_logi_price" },
+        { data: "orda_status" },
       ],
     };
   }
@@ -89,7 +89,6 @@ export class OrderComponent implements OnInit {
     this.headers = new HttpHeaders();
     this.headers = this.headers.append('Authorization', localStorage.getItem('token_admin'));
 
-    this.loadDataOrder();
+    this.loadDataOrderAgent();
   }
-
 }

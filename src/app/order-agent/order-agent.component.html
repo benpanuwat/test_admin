@@ -2,7 +2,7 @@
   <div class="content container-fluid">
     <div class="row">
       <div class="col-xs-4">
-        <h4 class="page-title">รายการสั่งซื้อ</h4>
+        <h4 class="page-title">รายการสั่งซื้อดรอปชิปเปอร์</h4>
       </div>
     </div>
     <div class="row">
@@ -23,19 +23,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let ord of orders">
-                <td>{{ ord.ord_id }}</td>
-                <td>{{ ord.ord_createdate}}</td>
-                <td>{{ ord.pro_name }}</td>
-                <td>{{ ord.prot_name }}</td>
-                <td>{{ ord.ord_price| currency:' ' }}</td>
-                <td>{{ ord.ord_count}}</td>
-                <td>{{ ord.ord_logi_price| currency:' ' }}</td>
+              <tr *ngFor="let orda of order_agents">
+                <td>{{ orda.orda_id }}</td>
+                <td>{{ orda.orda_createdate}}</td>
+                <td>{{ orda.pro_name }}</td>
+                <td>{{ orda.prot_name }}</td>
+                <td>{{ orda.orda_price| currency:' ' }}</td>
+                <td>{{ orda.orda_count}}</td>
+                <td>{{ orda.orda_logi_price| currency:' ' }}</td>
                 <td>
-                  <span *ngIf="ord.ord_status == 'order'" class="label label-info-border">ใหม่</span>
-                  <span *ngIf="ord.ord_status == 'payment'" class="label label-warning-border">รอตรวจสอบ</span>
-                  <span *ngIf="ord.ord_status == 'packing'" class="label label-purple-border">บรรจุสินค้า</span>
-                  <span *ngIf="ord.ord_status == 'cancel'" class="label label-danger-border">ยกเลิก</span>
+                  <span *ngIf="orda.orda_status == 'order'" class="label label-info-border">ใหม่</span>
+                  <span *ngIf="orda.orda_status == 'payment'" class="label label-warning-border">รอตรวจสอบ</span>
+                  <span *ngIf="orda.orda_status == 'packing'" class="label label-purple-border">บรรจุสินค้า</span>
+                  <span *ngIf="orda.orda_status == 'cancel'" class="label label-danger-border">ยกเลิก</span>
                 </td>
                 <td class="text-right">
                   <!-- <div class="dropdown">
@@ -52,7 +52,7 @@
                   </div> -->
                 </td>
               </tr>
-              <tr *ngIf="orders?.length == 0">
+              <tr *ngIf="order_agents?.length == 0">
                 <td colspan="9" class="no-data-available">ไม่พบข้อมูล!</td>
               </tr>
             </tbody>

@@ -15,6 +15,7 @@ import { MorrisJsModule } from 'angular-morris-js';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { enableProdMode } from '@angular/core';
 import { NumberDirective } from './numbers-only.directive';
+import { NgxBarcodeModule } from 'ngx-barcode';
 import { AuthGuard } from './auth/AuthGuard';
 
 import { AppComponent } from './app.component';
@@ -26,6 +27,9 @@ import { PaymentComponent } from './payment/payment.component';
 import { BlogComponent } from './blog/blog.component';
 import { SettingComponent } from './setting/setting.component';
 import { OrderComponent } from './order/order.component';
+import { OrderAgentComponent } from './order-agent/order-agent.component';
+import { PrintComponent } from './print/print.component';
+import { PrintLabelComponent } from './print-label/print-label.component';
 
 enableProdMode();
 
@@ -35,7 +39,10 @@ const routes: Routes = [
   { path: 'member', component: MemberComponent, canActivate: [AuthGuard] },
   { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
   { path: 'order', component: OrderComponent, canActivate: [AuthGuard] },
+  { path: 'orderagent', component: OrderAgentComponent, canActivate: [AuthGuard] },
   { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
+  { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
+  { path: 'print_label', component: PrintLabelComponent, canActivate: [AuthGuard] },
   { path: 'blog', component: BlogComponent, canActivate: [AuthGuard] },
   { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'login' }
@@ -52,7 +59,10 @@ const routes: Routes = [
     PaymentComponent,
     BlogComponent,
     SettingComponent,
-    OrderComponent
+    OrderComponent,
+    PrintComponent,
+    OrderAgentComponent,
+    PrintLabelComponent
   ],
   imports: [
     HttpClientModule,
@@ -68,6 +78,7 @@ const routes: Routes = [
     NgxDatatableModule,
     FullCalendarModule,
     MorrisJsModule,
+    NgxBarcodeModule,
     TooltipModule.forRoot(),
     RouterModule.forRoot(routes)
   ],

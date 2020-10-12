@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit,AfterViewInit {
     router.events.subscribe((event: Event) => {
 
       if (event instanceof NavigationEnd) {
-        this.url = event.url.split('/')[1];
+        this.url = event.url.split('/')[1].split("?")[0];
         //console.log(this.url);
         if(this.url === 'inbox' || this.url === 'chats' || this.url === 'settings' || this.url === 'calls')
         {
@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit,AfterViewInit {
   ngOnInit() {
 
     this.use.id = localStorage.getItem('id_admin');
-    this.use.name = localStorage.getItem('name');
+    this.use.name = localStorage.getItem('name_admin');
     
     this.opts1 = {
       barBackground: '#878787',
