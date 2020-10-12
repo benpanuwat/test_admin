@@ -60,8 +60,8 @@ export class PaymentComponent implements OnInit {
         dataTablesParameters.mem_id = localStorage.getItem('id_admin');
         dataTablesParameters.userlogin = {
           id: localStorage.getItem('id_admin'),
-          name: localStorage.getItem('name'),
-          email: localStorage.getItem('email')
+          name: localStorage.getItem('name_admin'),
+          email: localStorage.getItem('email_admin')
         };
 
         this.http
@@ -98,7 +98,7 @@ export class PaymentComponent implements OnInit {
   ngOnInit() {
 
     this.headers = new HttpHeaders();
-    this.headers = this.headers.append('Authorization', localStorage.getItem('token'));
+    this.headers = this.headers.append('Authorization', localStorage.getItem('token_admin'));
 
     this.loadDataMember();
 
@@ -109,14 +109,20 @@ export class PaymentComponent implements OnInit {
     payment.mem_id = localStorage.getItem('id_admin');
     payment.userlogin = {
       id: localStorage.getItem('id_admin'),
-      name: localStorage.getItem('name'),
-      email: localStorage.getItem('email')
+      name: localStorage.getItem('name_admin'),
+      email: localStorage.getItem('email_admin')
     };
 
     this.http.post<any>(this.appserver.server + '/payment/get_payment_detail.php', payment, { headers: this.headers }).subscribe(data => {
       if (data.success) {
         this.paymentsDetail = data.data.payment;
 
+        this.total = {
+          price_total: 0,
+          logi_total: 0,
+          grand_total: 0
+        };
+        
         var that = this;
 
         this.paymentsDetail.orders.forEach(function (ord) {
@@ -148,8 +154,8 @@ export class PaymentComponent implements OnInit {
     paymentsDetail.mem_id = localStorage.getItem('id_admin');
     paymentsDetail.userlogin = {
       id: localStorage.getItem('id_admin'),
-      name: localStorage.getItem('name'),
-      email: localStorage.getItem('email')
+      name: localStorage.getItem('name_admin'),
+      email: localStorage.getItem('email_admin')
     };
 
     this.http.post<any>(this.appserver.server + '/payment/accept_payment.php', paymentsDetail, { headers: this.headers }).subscribe(data => {
@@ -162,12 +168,12 @@ export class PaymentComponent implements OnInit {
   }
 
   clickRejectPayment(paymentsDetail) {
-    
+
     paymentsDetail.mem_id = localStorage.getItem('id_admin');
     paymentsDetail.userlogin = {
       id: localStorage.getItem('id_admin'),
-      name: localStorage.getItem('name'),
-      email: localStorage.getItem('email')
+      name: localStorage.getItem('name_admin'),
+      email: localStorage.getItem('email_admin')
     };
 
     this.http.post<any>(this.appserver.server + '/payment/reject_payment.php', paymentsDetail, { headers: this.headers }).subscribe(data => {

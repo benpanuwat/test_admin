@@ -34,9 +34,9 @@ export class LoginPageComponent implements OnInit {
 
           localStorage.setItem("auth", res.success);
           localStorage.setItem("id_admin", res.data.user.id);
-          localStorage.setItem("name", res.data.user.name);
-          localStorage.setItem("email", res.data.user.email);
-          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("name_admin", res.data.user.name);
+          localStorage.setItem("email_admin", res.data.user.email);
+          localStorage.setItem("token_admin", res.data.token);
           this.router.navigate(['/member']);
         }
         else {

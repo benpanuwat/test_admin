@@ -16,7 +16,7 @@ export class SettingComponent implements OnInit {
 
   ngOnInit(): void {
     this.headers = new HttpHeaders();
-    this.headers = this.headers.append('Authorization', localStorage.getItem('token'));
+    this.headers = this.headers.append('Authorization', localStorage.getItem('token_admin'));
     this.loadSetting();
   }
 

@@ -71,8 +71,8 @@ export class MemberComponent implements OnInit {
         dataTablesParameters.mem_id = localStorage.getItem('id_admin');
         dataTablesParameters.userlogin = {
           id: localStorage.getItem('id_admin'),
-          name: localStorage.getItem('name'),
-          email: localStorage.getItem('email')
+          name: localStorage.getItem('name_admin'),
+          email: localStorage.getItem('email_admin')
         };
 
         this.http
@@ -106,7 +106,7 @@ export class MemberComponent implements OnInit {
   ngOnInit() {
 
     this.headers = new HttpHeaders();
-    this.headers = this.headers.append('Authorization', localStorage.getItem('token'));
+    this.headers = this.headers.append('Authorization', localStorage.getItem('token_admin'));
 
     this.loadDataMember();
 
@@ -147,8 +147,8 @@ export class MemberComponent implements OnInit {
       this.addM.mem_id = localStorage.getItem('id_admin');
       this.addM.userlogin = {
         id: localStorage.getItem('id_admin'),
-        name: localStorage.getItem('name'),
-        email: localStorage.getItem('email')
+        name: localStorage.getItem('name_admin'),
+        email: localStorage.getItem('email_admin')
       };
 
       this.http.post<any>(this.appserver.server + '/member/create_member.php', this.addM, { headers: this.headers }).subscribe(data => {
@@ -170,8 +170,8 @@ export class MemberComponent implements OnInit {
     this.uptM.mem_id = localStorage.getItem('id_admin');
     this.uptM.userlogin = {
       id: localStorage.getItem('id_admin'),
-      name: localStorage.getItem('name'),
-      email: localStorage.getItem('email')
+      name: localStorage.getItem('name_admin'),
+      email: localStorage.getItem('email_admin')
     };
 
     $('#edit_member').modal('show');

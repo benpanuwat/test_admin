@@ -25,6 +25,7 @@ import { MemberComponent } from './member/member.component';
 import { PaymentComponent } from './payment/payment.component';
 import { BlogComponent } from './blog/blog.component';
 import { SettingComponent } from './setting/setting.component';
+import { OrderComponent } from './order/order.component';
 
 enableProdMode();
 
@@ -32,6 +33,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
   { path: 'member', component: MemberComponent, canActivate: [AuthGuard] },
+  { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
+  { path: 'order', component: OrderComponent, canActivate: [AuthGuard] },
   { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
   { path: 'blog', component: BlogComponent, canActivate: [AuthGuard] },
   { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
@@ -48,7 +51,8 @@ const routes: Routes = [
     NumberDirective,
     PaymentComponent,
     BlogComponent,
-    SettingComponent
+    SettingComponent,
+    OrderComponent
   ],
   imports: [
     HttpClientModule,
