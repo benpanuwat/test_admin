@@ -62,6 +62,11 @@ export class PrintLabelComponent implements OnInit {
 
         //console.log(this.orders);
         //console.log(this.orders_agent);
+
+        setTimeout(function () {
+          document.title = "Dropy Label";
+          window.print();
+        }, 1000);
       }
     });
 

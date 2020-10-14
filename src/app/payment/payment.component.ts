@@ -127,19 +127,19 @@ export class PaymentComponent implements OnInit {
 
         this.paymentsDetail.orders.forEach(function (ord) {
           ord.select = true;
-          ord.total = (ord.ord_price * ord.ord_count) + parseInt(ord.logistic.logi_price);
+          ord.total = (ord.ord_price * ord.ord_count) + parseInt(ord.ord_logi_price);
 
           that.total.price_total += parseInt(ord.ord_price);
-          that.total.logi_total += parseInt(ord.logistic.logi_price);
+          that.total.logi_total += parseInt(ord.ord_logi_price);
           that.total.grand_total += parseInt(ord.total);
         });
 
         this.paymentsDetail.orders_agent.forEach(function (orda) {
           orda.select = true;
-          orda.total = (orda.orda_price * orda.orda_count) + parseInt(orda.logistic.logi_price);
+          orda.total = (orda.orda_price * orda.orda_count) + parseInt(orda.orda_logi_price);
 
           that.total.price_total += parseInt(orda.orda_price);
-          that.total.logi_total += parseInt(orda.logistic.logi_price);
+          that.total.logi_total += parseInt(orda.orda_logi_price);
           that.total.grand_total += parseInt(orda.total);
         });
       }

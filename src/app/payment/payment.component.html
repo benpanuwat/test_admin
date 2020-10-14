@@ -86,7 +86,7 @@
                     <td>{{ order.pro_id }}</td>
                     <td style="text-align: right;">{{ order.ord_price | currency:' '}}</td>
                     <td style="text-align: right;">{{ order.ord_count }}</td>
-                    <td style="text-align: right;">{{ order.logistic.logi_price| currency:' ' }}</td>
+                    <td style="text-align: right;">{{ order.ord_logi_price| currency:' ' }}</td>
                     <td style="text-align: right;"><u>{{ order.total| currency:' '}}</u></td>
                   </tr>
                 </tbody>
@@ -111,7 +111,7 @@
                     <td>{{ order.pro_id }}</td>
                     <td style="text-align: right;">{{ order.orda_price | currency:' '}}</td>
                     <td style="text-align: right;">{{ order.orda_count }}</td>
-                    <td style="text-align: right;">{{ order.logistic.logi_price| currency:' ' }}</td>
+                    <td style="text-align: right;">{{ order.orda_logi_price| currency:' ' }}</td>
                     <td style="text-align: right;"><u>{{ order.total| currency:' '}}</u></td>
                   </tr>
                 </tbody>
