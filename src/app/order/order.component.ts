@@ -92,4 +92,22 @@ export class OrderComponent implements OnInit {
     this.loadDataOrder();
   }
 
+  clickCancelOrder(ord) {
+    if (confirm("ต้องการรายการสั่งซื้อนี้หรือไม่")) {
+
+      ord.mem_id = localStorage.getItem('id_admin');
+      ord.userlogin = {
+          id: localStorage.getItem('id_admin'),
+          name: localStorage.getItem('name_admin'),
+          email: localStorage.getItem('email_admin')
+        };
+
+      this.http.post<any>(this.appserver.server + '/order/cancel_order.php', ord, { headers: this.headers }).subscribe(data => {
+        if (data.status) {
+          this.rerender();
+        }
+      });
+    }
+  }
+
 }

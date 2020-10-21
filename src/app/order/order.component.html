@@ -32,24 +32,24 @@
                 <td>{{ ord.ord_count}}</td>
                 <td>{{ ord.ord_logi_price| currency:' ' }}</td>
                 <td>
-                  <span *ngIf="ord.ord_status == 'order'" class="label label-info-border">ใหม่</span>
-                  <span *ngIf="ord.ord_status == 'payment'" class="label label-warning-border">รอตรวจสอบ</span>
-                  <span *ngIf="ord.ord_status == 'packing'" class="label label-purple-border">บรรจุสินค้า</span>
-                  <span *ngIf="ord.ord_status == 'cancel'" class="label label-danger-border">ยกเลิก</span>
+                  <span *ngIf="ord.ord_status == 'order'" class="label status-order-border">รายการใหม่</span>
+                  <span *ngIf="ord.ord_status == 'payment'" class="label status-payment-border">รอตรวจสอบ</span>
+                  <span *ngIf="ord.ord_status == 'packing'" class="label status-packing-border">บรรจุสินค้า</span>
+                  <span *ngIf="ord.ord_status == 'pickup'" class="label status-pickup-border">รับสินค้าแล้ว</span>
+                  <span *ngIf="ord.ord_status == 'delivery'" class="label status-delivery-border">กำลังส่งสืนค้า</span>
+                  <span *ngIf="ord.ord_status == 'receive'" class="label status-receive-border">ถึงลูกค้าแล้ว</span>
+                  <span *ngIf="ord.ord_status == 'success'" class="label status-success-border">สำเร็จ</span>
+                  <span *ngIf="ord.ord_status == 'cancel'" class="label status-cancel-border">ยกเลิก</span>
                 </td>
                 <td class="text-right">
-                  <!-- <div class="dropdown">
+                  <div class="dropdown" *ngIf="ord.ord_status == 'order' || ord.ord_status == 'payment'">
                     <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
                       aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <ul class="dropdown-menu pull-right">
-                      <li><a href="javascript:"><i
-                            class="fa fa-search m-r-5"></i>
-                          ตรวจสอบ</a></li>
-                     <li><a href="javascript:" (click)="clickDeleteCustomer(member)"><i
-                            class="fa fa-trash-o m-r-5"></i>
-                          ลบ</a></li>
+                      <li><a href="javascript:" (click)="clickCancelOrder(ord)"><i class="fa fa-times m-r-5"></i>
+                          ยกเลิก</a></li>
                     </ul>
-                  </div> -->
+                  </div>
                 </td>
               </tr>
               <tr *ngIf="orders?.length == 0">

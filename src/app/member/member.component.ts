@@ -219,13 +219,13 @@ export class MemberComponent implements OnInit {
   }
 
   clickDeleteCustomer(customer) {
-    if (confirm("ต้องการลบลูกค้านี้หรือไม่")) {
-      customer.cus_useby = this.use_id;
-      this.http.post<any>(this.appserver.server + '/customer/delete_customer.php', customer, { headers: this.headers }).subscribe(data => {
-        if (data.status) {
-          this.rerender();
-        }
-      });
-    }
+    // if (confirm("ต้องการลบลูกค้านี้หรือไม่")) {
+    //   customer.cus_useby = this.use_id;
+    //   this.http.post<any>(this.appserver.server + '/customer/delete_customer.php', customer, { headers: this.headers }).subscribe(data => {
+    //     if (data.status) {
+    //       this.rerender();
+    //     }
+    //   });
+    // }
   }
 }

@@ -91,4 +91,22 @@ export class OrderAgentComponent implements OnInit {
 
     this.loadDataOrderAgent();
   }
+
+  clickCancelOrdera(orda) {
+    if (confirm("ต้องการรายการสั่งซื้อนี้หรือไม่")) {
+
+      orda.mem_id = localStorage.getItem('id_admin');
+      orda.userlogin = {
+          id: localStorage.getItem('id_admin'),
+          name: localStorage.getItem('name_admin'),
+          email: localStorage.getItem('email_admin')
+        };
+
+      this.http.post<any>(this.appserver.server + '/order/cancel_order_agent.php', orda, { headers: this.headers }).subscribe(data => {
+        if (data.status) {
+          this.rerender();
+        }
+      });
+    }
+  }
 }

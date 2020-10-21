@@ -33,7 +33,7 @@
                   <span *ngIf="payment.pay_status == 'reject'" class="label label-danger-border">Reject</span>
                 </td>
                 <td class="text-right">
-                  <div class="dropdown">
+                  <div class="dropdown" *ngIf="payment.pay_status == 'new'">
                     <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
                       aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <ul class="dropdown-menu pull-right">
@@ -86,7 +86,8 @@
                     <td>{{ order.pro_id }}</td>
                     <td style="text-align: right;">{{ order.ord_price | currency:' '}}</td>
                     <td style="text-align: right;">{{ order.ord_count }}</td>
-                    <td style="text-align: right;">{{ order.ord_logi_price| currency:' ' }}</td>
+                    <td style="text-align: right;" *ngIf="order.ord_ship =='1'">{{ order.ord_logi_price| currency:' ' }}</td>
+                    <td style="text-align: right;" *ngIf="order.ord_ship =='0'">ฟรี</td>
                     <td style="text-align: right;"><u>{{ order.total| currency:' '}}</u></td>
                   </tr>
                 </tbody>
@@ -111,7 +112,8 @@
                     <td>{{ order.pro_id }}</td>
                     <td style="text-align: right;">{{ order.orda_price | currency:' '}}</td>
                     <td style="text-align: right;">{{ order.orda_count }}</td>
-                    <td style="text-align: right;">{{ order.orda_logi_price| currency:' ' }}</td>
+                    <td style="text-align: right;" *ngIf="order.orda_ship =='1'">{{ order.orda_logi_price| currency:' ' }}</td>
+                    <td style="text-align: right;" *ngIf="order.orda_ship =='0'">ฟรี</td>
                     <td style="text-align: right;"><u>{{ order.total| currency:' '}}</u></td>
                   </tr>
                 </tbody>
