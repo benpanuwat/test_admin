@@ -20,6 +20,8 @@ export class PrintLabelComponent implements OnInit {
   public orders: any = [];
   public orders_agent: any = [];
 
+  public index = 0;
+
   constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private appserver: AppService) {
     this.activatedRoute.queryParams.subscribe(params => {
       const l = params['l'];
@@ -55,9 +57,11 @@ export class PrintLabelComponent implements OnInit {
           ord.ord_label[1] = ord.ord_label[1].split('-');
         });
 
+        var that = this;
         this.orders_agent.forEach(function (orda) {
           orda.orda_label = orda.orda_label.split('#');
           orda.orda_label[1] = orda.orda_label[1].split('-');
+          that.index++;
         });
 
         //console.log(this.orders);
@@ -65,7 +69,7 @@ export class PrintLabelComponent implements OnInit {
 
         setTimeout(function () {
           document.title = "Dropy Label";
-          window.print();
+           window.print();
         }, 1000);
       }
     });

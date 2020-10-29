@@ -22,6 +22,9 @@
         <li [ngClass]="url === 'print'? 'active' : 'null'">
           <a routerLink="print"><i class="las la-print"></i> <span> พิมพ์ใบส่งของ </span></a>
         </li>
+        <li [ngClass]="url === 'withdraw'? 'active' : 'null'">
+          <a routerLink="withdraw"><i class="las la-wallet"></i> <span> ถอนเงิน </span></a>
+        </li>
         <li [ngClass]="url === 'blog'? 'active' : 'null'">
           <a routerLink="blog"><i class="la la-book"></i> <span> บทความ </span></a>
         </li>

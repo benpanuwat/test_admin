@@ -1,5 +1,51 @@
 <div style="width: 100%;text-align: center;color: black;font-family: Tahoma;background-color: white;">
-    <div class="page" style="width: 500px;" *ngFor="let order of orders">
+    <div class="page" style="padding: 50px;">
+        <h3>รายละเอียดรายการสั่งซื้อ</h3>
+        <table style="font-size: 10px;">
+            <tr>
+                <th style="text-align: center;">ลำดับ</th>
+                <th style="text-align: center;">หมายเลขพัสดุ</th>
+                <th style="text-align: center;">ชื่อสินค้า</th>
+                <th style="text-align: center;">ชนิดสินค้า</th>
+                <th style="text-align: center;">จำนวน</th>
+            </tr>
+            <tr *ngFor="let order of orders;index as i">
+                <td>
+                    {{i+1}}
+                </td>
+                <td>
+                    {{order.ord_tracking}}
+                </td>
+                <td>
+                    {{order.pro_name}}
+                </td>
+                <td>
+                    {{order.prot_name}}
+                </td>
+                <td>
+                    {{order.ord_count}}
+                </td>
+            </tr>
+            <tr *ngFor="let orders_agent of orders_agent;index as i">
+                <td>
+                    {{index+1+i}}
+                </td>
+                <td>
+                    {{orders_agent.orda_tracking}}
+                </td>
+                <td>
+                    {{orders_agent.pro_name}}
+                </td>
+                <td>
+                    {{orders_agent.prot_name}}
+                </td>
+                <td>
+                    {{orders_agent.orda_count}}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="page" style="width: 500px;border: 1px solid black;" *ngFor="let order of orders">
 
         <div style="width: 500px;">
             <p style="font-size: 36px;"><strong>
@@ -16,7 +62,8 @@
             <table style="width: 480px;margin: 0 auto;text-align: left;">
                 <tr>
                     <td>
-                        <div style="font-size: 24px;padding: 5px;"><strong>รับสินค้าด้วยบัญชีธุรกิจ : 0909162626</strong>
+                        <div style="font-size: 24px;padding: 5px;"><strong>รับสินค้าด้วยบัญชีธุรกิจ :
+                                0909162626</strong>
                         </div>
                     </td>
                 </tr>
@@ -89,7 +136,7 @@
 
     </div>
 
-    <div class="page" style="width: 500px;" *ngFor="let order_agent of orders_agent">
+    <div class="page" style="width: 500px;border: 1px solid black;" *ngFor="let order_agent of orders_agent">
 
         <div style="width: 500px;">
             <p style="font-size: 36px;"><strong>
@@ -107,7 +154,8 @@
             <table style="width: 480px;margin: 0 auto;text-align: left;">
                 <tr>
                     <td>
-                        <div style="font-size: 24px;padding: 5px;"><strong>รับสินค้าด้วยบัญชีธุรกิจ : 0909162626</strong>
+                        <div style="font-size: 24px;padding: 5px;"><strong>รับสินค้าด้วยบัญชีธุรกิจ :
+                                0909162626</strong>
                         </div>
                     </td>
                 </tr>

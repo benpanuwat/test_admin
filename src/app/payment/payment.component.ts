@@ -64,6 +64,8 @@ export class PaymentComponent implements OnInit {
           email: localStorage.getItem('email_admin')
         };
 
+        console.log(dataTablesParameters);
+
         this.http
           .post<DataTablesResponse>(this.appserver.server + '/payment/get_payment_table.php', dataTablesParameters, { headers: this.headers })
           .subscribe(resp => {
