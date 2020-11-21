@@ -28,12 +28,12 @@
                 <td>{{ payment.mem_tel }}</td>
                 <td>{{ payment.pay_amount| currency:' ' }}</td>
                 <td>
-                  <span *ngIf="payment.pay_status == 'new'" class="label label-info-border">New</span>
-                  <span *ngIf="payment.pay_status == 'accept'" class="label label-success-border">Accept</span>
-                  <span *ngIf="payment.pay_status == 'reject'" class="label label-danger-border">Reject</span>
+                  <span *ngIf="payment.pay_status == 'new'" class="label label-info-border">รายการใหม่</span>
+                  <span *ngIf="payment.pay_status == 'accept'" class="label label-success-border">อนุมัติ</span>
+                  <span *ngIf="payment.pay_status == 'reject'" class="label label-danger-border">ไม่อนุมัติ</span>
                 </td>
                 <td class="text-right">
-                  <div class="dropdown" *ngIf="payment.pay_status == 'new'">
+                  <div class="dropdown">
                     <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
                       aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <ul class="dropdown-menu pull-right">
@@ -148,9 +148,9 @@
             <div *ngIf="addValidation" class="alert alert-info m-t-10">
               <strong>แจ้งเตือน!</strong> {{massAdd}}
             </div>
-            <button class="btn btn-success" type="button" style="margin: 5px;"
+            <button class="btn btn-success" type="button" style="margin: 5px;" *ngIf="paymentsDetail.pay_status == 'new'"
               (click)="clickAcceptPayment(paymentsDetail)">ยืนยันการชำระเงิน</button>
-            <button class="btn btn-danger" type="button" style="margin: 5px;"
+            <button class="btn btn-danger" type="button" style="margin: 5px;" *ngIf="paymentsDetail.pay_status == 'new'"
               (click)="clickRejectPayment(paymentsDetail)">ยกเลิกการชำระเงิน</button>
           </div>
         </div>
