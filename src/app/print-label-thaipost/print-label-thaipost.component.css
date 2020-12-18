@@ -1,0 +1,19 @@
+@media print {
+  @page {
+    margin: 0;
+  }
+
+  .page {
+    page-break-after: always;
+    margin-bottom: 20px;
+  }
+
+
+}
+
+.page {
+  page-break-after: always;
+  margin-bottom: 20px;
+}
+
+

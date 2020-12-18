@@ -4,6 +4,7 @@ import { AppService } from 'src/app/app.service';
 import { DataTablesResponse } from '../model/datatables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Payment } from '../model/payment';
+import { computeStyle } from '@angular/animations/browser/src/util';
 
 declare const $: any;
 
@@ -63,8 +64,6 @@ export class PaymentComponent implements OnInit {
           name: localStorage.getItem('name_admin'),
           email: localStorage.getItem('email_admin')
         };
-
-        console.log(dataTablesParameters);
 
         this.http
           .post<DataTablesResponse>(this.appserver.server + '/payment/get_payment_table.php', dataTablesParameters, { headers: this.headers })

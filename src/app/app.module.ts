@@ -30,6 +30,7 @@ import { OrderComponent } from './order/order.component';
 import { OrderAgentComponent } from './order-agent/order-agent.component';
 import { PrintComponent } from './print/print.component';
 import { PrintLabelComponent } from './print-label/print-label.component';
+import { PrintLabelThaipostComponent } from './print-label-thaipost/print-label-thaipost.component';
 import { WithdrawComponent } from './withdraw/withdraw.component';
 
 enableProdMode();
@@ -45,6 +46,7 @@ const routes: Routes = [
   { path: 'withdraw', component: WithdrawComponent, canActivate: [AuthGuard] },
   { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
   { path: 'print_label', component: PrintLabelComponent, canActivate: [AuthGuard] },
+  { path: 'print_label_thaipost', component: PrintLabelThaipostComponent, canActivate: [AuthGuard] },
   { path: 'blog', component: BlogComponent, canActivate: [AuthGuard] },
   { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'login' }
@@ -65,6 +67,7 @@ const routes: Routes = [
     PrintComponent,
     OrderAgentComponent,
     PrintLabelComponent,
+    PrintLabelThaipostComponent,
     WithdrawComponent
   ],
   imports: [

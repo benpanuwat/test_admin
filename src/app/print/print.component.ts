@@ -50,17 +50,47 @@ export class PrintComponent implements OnInit {
   }
 
   clickPrintOrder(ord) {
-    this.user.search.ord_id = ord.ord_id;
-    this.user.search.status = "ord";
-    window.open("/dropy_admin/print_label?l=" + this.utf8_to_b64(JSON.stringify(this.user.search)), '_blank');
-    ord.ord_print = '1';
+
+    if (ord.logi_id == 1) {
+      this.user.search.ord_id = ord.ord_id;
+      this.user.search.status = "ord";
+      window.open("/dropy_admin/print_label_thaipost?l=" + this.utf8_to_b64(JSON.stringify(this.user.search)), '_blank');
+      ord.ord_print = '1';
+    }
+    else if (ord.logi_id == 2) {
+      this.user.search.ord_id = ord.ord_id;
+      this.user.search.status = "ord";
+      window.open("/dropy_admin/print_label_thaipost?l=" + this.utf8_to_b64(JSON.stringify(this.user.search)), '_blank');
+      ord.ord_print = '1';
+    }
+    else if (ord.logi_id == 3) {
+      this.user.search.ord_id = ord.ord_id;
+      this.user.search.status = "ord";
+      window.open("/dropy_admin/print_label?l=" + this.utf8_to_b64(JSON.stringify(this.user.search)), '_blank');
+      ord.ord_print = '1';
+    }
   }
 
   clickPrintOrdera(orda) {
-    this.user.search.orda_id = orda.orda_id;
-    this.user.search.status = "orda";
-    window.open("/dropy_admin/print_label?l=" + this.utf8_to_b64(JSON.stringify(this.user.search)), '_blank');
-    orda.orda_print = '1';
+    console.log(orda);
+    if (orda.logi_id == 1) {
+      this.user.search.orda_id = orda.orda_id;
+      this.user.search.status = "orda";
+      window.open("/dropy_admin/print_label_thaipost?l=" + this.utf8_to_b64(JSON.stringify(this.user.search)), '_blank');
+      orda.orda_print = '1';
+    }
+    else if (orda.logi_id == 2) {
+      this.user.search.orda_id = orda.orda_id;
+      this.user.search.status = "orda";
+      window.open("/dropy_admin/print_label_thaipost?l=" + this.utf8_to_b64(JSON.stringify(this.user.search)), '_blank');
+      orda.orda_print = '1';
+    }
+    else if (orda.logi_id == 3) {
+      this.user.search.orda_id = orda.orda_id;
+      this.user.search.status = "orda";
+      window.open("/dropy_admin/print_label?l=" + this.utf8_to_b64(JSON.stringify(this.user.search)), '_blank');
+      orda.orda_print = '1';
+    }
   }
 
   clickPrintAll() {
