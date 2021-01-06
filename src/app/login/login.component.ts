@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
 
   public userlogin = {
-    use_username: "",
-    use_password: ""
+    username: "",
+    password: ""
   };
 
   loginValidation: boolean = false;
   loginMass: string = "";
 
-  constructor(private http: HttpClient, private appserver: AppService,private router: Router) { }
+  constructor(private http: HttpClient, private service: AppService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -29,15 +29,14 @@ export class LoginPageComponent implements OnInit {
       this.loginMass = "กรุณากรอกชื่อเข้าใช้งานและรหัสผ่านให้ถูกต้อง";
     }
     else {
-      this.http.post<any>(this.appserver.server + '/login/login_admin.php', this.userlogin, {}).subscribe(res => {
-        if (res.success) {
+      this.http.post<any>(this.service.url + '/api/user_login_back', this.userlogin, {}).subscribe(res => {
+        if (res.code == 200) {
 
-          localStorage.setItem("auth", res.success);
-          localStorage.setItem("id_admin", res.data.user.id);
-          localStorage.setItem("name_admin", res.data.user.name);
-          localStorage.setItem("email_admin", res.data.user.email);
+          localStorage.setItem("auth_admin", "true");
+          localStorage.setItem("id_admin", res.data.use_id);
+          localStorage.setItem("username_admin", res.data.use_username);
           localStorage.setItem("token_admin", res.data.token);
-          this.router.navigate(['/member']);
+          window.location.href = "user";
         }
         else {
           this.loginValidation = true;

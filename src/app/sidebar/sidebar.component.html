@@ -1,13 +1,14 @@
-<div class="sidebar" id="sidebar" *ngIf="url != 'login' && url !='print_label' && url !='print_label_thaipost' && url != ''">
+<div class="sidebar" id="sidebar"
+  *ngIf="url != 'login' && url !='print_label' && url !='print_label_thaipost' && url != ''">
   <div class="sidebar-inner slimscroll-wrap" slimScroll [options]="opts">
     <div id="sidebar-menu" class="sidebar-menu">
       <ul *ngIf="homeView">
         <!-- <li [ngClass]="[url === 'dashboard'? 'active' : 'inactive',url === ''? 'active' : 'inactive']">
                 <a routerLink="dashboard"><i class="la la-dashboard"></i> <span> Dashboard </span></a>
-              </li>
-              <li *ngIf="permission.use_user_view == '1'" [ngClass]="url === 'users'? 'active' : 'null'">
-                <a routerLink="users"><i class="la la-user-plus"></i> <span> Users </span></a>
               </li> -->
+        <li [ngClass]="url === 'user'? 'active' : 'null'">
+          <a routerLink="user"><i class="la la-users"></i> <span> ผู้ใช้งาน </span></a>
+        </li>
         <li [ngClass]="url === 'member'? 'active' : 'null'">
           <a routerLink="member"><i class="la la-users"></i> <span> สมาชิก </span></a>
         </li>

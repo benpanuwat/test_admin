@@ -1,5 +1,8 @@
 export class DataTablesResponse {
     data: any[];
-    recordsFiltered: number;
-    recordsTotal: number;
+    draw: Number;
+    recordsFiltered: Number;
+    recordsTotal: Number;
+    total: Number;
+    to: Number;
 }

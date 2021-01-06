@@ -22,33 +22,35 @@ import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login/login.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
-import { MemberComponent } from './member/member.component';
-import { PaymentComponent } from './payment/payment.component';
-import { BlogComponent } from './blog/blog.component';
-import { SettingComponent } from './setting/setting.component';
-import { OrderComponent } from './order/order.component';
-import { OrderAgentComponent } from './order-agent/order-agent.component';
-import { PrintComponent } from './print/print.component';
-import { PrintLabelComponent } from './print-label/print-label.component';
-import { PrintLabelThaipostComponent } from './print-label-thaipost/print-label-thaipost.component';
-import { WithdrawComponent } from './withdraw/withdraw.component';
+import { UserComponent } from './user/user.component';
+// import { MemberComponent } from './member/member.component';
+// import { PaymentComponent } from './payment/payment.component';
+// import { BlogComponent } from './blog/blog.component';
+// import { SettingComponent } from './setting/setting.component';
+// import { OrderComponent } from './order/order.component';
+// import { OrderAgentComponent } from './order-agent/order-agent.component';
+// import { PrintComponent } from './print/print.component';
+// import { PrintLabelComponent } from './print-label/print-label.component';
+// import { PrintLabelThaipostComponent } from './print-label-thaipost/print-label-thaipost.component';
+// import { WithdrawComponent } from './withdraw/withdraw.component';
 
 enableProdMode();
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
-  { path: 'member', component: MemberComponent, canActivate: [AuthGuard] },
-  { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
-  { path: 'order', component: OrderComponent, canActivate: [AuthGuard] },
-  { path: 'orderagent', component: OrderAgentComponent, canActivate: [AuthGuard] },
-  { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
-  { path: 'withdraw', component: WithdrawComponent, canActivate: [AuthGuard] },
-  { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
-  { path: 'print_label', component: PrintLabelComponent, canActivate: [AuthGuard] },
-  { path: 'print_label_thaipost', component: PrintLabelThaipostComponent, canActivate: [AuthGuard] },
-  { path: 'blog', component: BlogComponent, canActivate: [AuthGuard] },
-  { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
+  { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
+  // { path: 'member', component: MemberComponent, canActivate: [AuthGuard] },
+  // { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
+  // { path: 'order', component: OrderComponent, canActivate: [AuthGuard] },
+  // { path: 'orderagent', component: OrderAgentComponent, canActivate: [AuthGuard] },
+  // { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
+  // { path: 'withdraw', component: WithdrawComponent, canActivate: [AuthGuard] },
+  // { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
+  // { path: 'print_label', component: PrintLabelComponent, canActivate: [AuthGuard] },
+  // { path: 'print_label_thaipost', component: PrintLabelThaipostComponent, canActivate: [AuthGuard] },
+  // { path: 'blog', component: BlogComponent, canActivate: [AuthGuard] },
+  // { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'login' }
 ];
 
@@ -58,17 +60,18 @@ const routes: Routes = [
     LoginPageComponent,
     SidebarComponent,
     HeaderComponent,
-    MemberComponent,
+    //MemberComponent,
+    UserComponent,
     NumberDirective,
-    PaymentComponent,
-    BlogComponent,
-    SettingComponent,
-    OrderComponent,
-    PrintComponent,
-    OrderAgentComponent,
-    PrintLabelComponent,
-    PrintLabelThaipostComponent,
-    WithdrawComponent
+    // PaymentComponent,
+    // BlogComponent,
+    // SettingComponent,
+    // OrderComponent,
+    // PrintComponent,
+    // OrderAgentComponent,
+    // PrintLabelComponent,
+    // PrintLabelThaipostComponent,
+    // WithdrawComponent
   ],
   imports: [
     HttpClientModule,
