@@ -23,7 +23,8 @@ import { LoginPageComponent } from './login/login.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { UserComponent } from './user/user.component';
-// import { MemberComponent } from './member/member.component';
+import { MemberComponent } from './member/member.component';
+import { ProductComponent } from './product/product.component';
 // import { PaymentComponent } from './payment/payment.component';
 // import { BlogComponent } from './blog/blog.component';
 // import { SettingComponent } from './setting/setting.component';
@@ -40,7 +41,8 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
   { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
-  // { path: 'member', component: MemberComponent, canActivate: [AuthGuard] },
+  { path: 'member', component: MemberComponent, canActivate: [AuthGuard] },
+  { path: 'product', component: ProductComponent, canActivate: [AuthGuard] },
   // { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
   // { path: 'order', component: OrderComponent, canActivate: [AuthGuard] },
   // { path: 'orderagent', component: OrderAgentComponent, canActivate: [AuthGuard] },
@@ -60,9 +62,10 @@ const routes: Routes = [
     LoginPageComponent,
     SidebarComponent,
     HeaderComponent,
-    //MemberComponent,
+    MemberComponent,
     UserComponent,
     NumberDirective,
+    ProductComponent,
     // PaymentComponent,
     // BlogComponent,
     // SettingComponent,

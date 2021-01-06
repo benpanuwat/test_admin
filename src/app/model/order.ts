@@ -5,6 +5,5 @@ export class Order {
     prot_name: string;
     ord_price: number;
     ord_count: number;
-    ord_logi_price: number;
     ord_status: string;
 }

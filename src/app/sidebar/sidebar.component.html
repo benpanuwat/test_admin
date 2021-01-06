@@ -12,6 +12,9 @@
         <li [ngClass]="url === 'member'? 'active' : 'null'">
           <a routerLink="member"><i class="la la-users"></i> <span> สมาชิก </span></a>
         </li>
+        <li [ngClass]="url === 'product'? 'active' : 'null'">
+          <a routerLink="product"><i class="la la-box"></i> <span> สินค้า </span></a>
+        </li>
         <li [ngClass]="url === 'order'? 'active' : 'null'">
           <a routerLink="order"><i class="la la-file-alt"></i> <span> รายการสั่งซื้อ </span></a>
         </li>

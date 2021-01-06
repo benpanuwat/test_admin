@@ -2,11 +2,11 @@
   <div class="content container-fluid">
     <div class="row">
       <div class="col-xs-4">
-        <h4 class="page-title">ลูกค้า</h4>
+        <h4 class="page-title">สินค้า</h4>
       </div>
       <div class="col-xs-8 text-right m-b-30">
-        <a href="javascript:" class="btn btn-primary rounded" (click)="clickShowAddMember()"><i class="fa fa-plus"></i>
-          เพิ่มลูกค้า</a>
+        <a href="javascript:" class="btn btn-primary rounded" (click)="clickShowAddProduct()"><i class="fa fa-plus"></i>
+          เพิ่มสินค้า</a>
       </div>
     </div>
     <div class="row">
@@ -17,33 +17,26 @@
               <tr>
                 <th style="width: 80px">รหัส</th>
                 <th>ชื่อ</th>
-                <th>นามสกุล</th>
-                <th>เบอร์โทรศัพท์</th>
                 <th style="width: 30px">จัดการ</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let member of members">
-                <td>{{ member.mem_id }}</td>
-                <td>{{ member.mem_fname }}</td>
-                <td>{{ member.mem_lname }}</td>
-                <td>{{ member.mem_tel }}</td>
+              <tr *ngFor="let product of products">
+                <td>{{ product.pro_id }}</td>
+                <td>{{ product.pro_name }}</td>
                 <td class="text-right">
                   <div class="dropdown">
                     <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
                       aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <ul class="dropdown-menu pull-right">
-                      <li><a href="javascript:" (click)="clickShowEditMember(member)"><i class="fa fa-pencil m-r-5"></i>
+                      <li><a href="javascript:"><i class="fa fa-pencil m-r-5"></i>
                           แก้ไข</a></li>
-                      <!-- <li><a href="javascript:" (click)="clickDeleteCustomer(member)"><i
-                            class="fa fa-trash-o m-r-5"></i>
-                          ลบ</a></li> -->
                     </ul>
                   </div>
                 </td>
               </tr>
-              <tr *ngIf="members?.length == 0">
-                <td colspan="5" class="no-data-available">ไม่พบข้อมูล!</td>
+              <tr *ngIf="products?.length == 0">
+                <td colspan="3" class="no-data-available">ไม่พบข้อมูล!</td>
               </tr>
             </tbody>
           </table>
@@ -53,48 +46,35 @@
   </div>
 
 
-  <!-- <div id="add_member" class="modal custom-modal fade" role="dialog">
+  <div id="add_product" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
       <div class="modal-content modal-lg">
         <div class="modal-header">
-          <h4 class="modal-title">เพิ่มสมาชิก</h4>
+          <h4 class="modal-title">เพิ่มสินค้า</h4>
         </div>
         <div class="modal-body">
-          <form class="m-b-30" #addForm="ngForm" (ngSubmit)="clickAddMember(addForm)" novalidate>
+          <form class="m-b-30" #addForm="ngForm" (ngSubmit)="clickAddProduct(addForm)" novalidate>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label class="control-label">อีเมล <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="mem_email" [(ngModel)]="addM.mem_email" required>
-                </div>
-                <div class="form-group">
-                  <label class="control-label">ชื่อ <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="mem_fname" [(ngModel)]="addM.mem_fname" required>
-                </div>
-                <div class="form-group">
-                  <label class="control-label">เพศ <span class="text-danger">*</span></label>
-                  <select class="form-control" name="mem_sex" [(ngModel)]="addM.mem_sex" required>
-                    <option value="M">ชาย</option>
-                    <option value="F">หญิง</option>
-                    <option value="O">อื่น ๆ</option>
-                  </select>
+                  <label class="control-label">ชื้อสินค้า <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="mem_email" [(ngModel)]="product.pro_name" required>
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label">รหัสผ่าน <span class="text-danger">*</span></label>
-                  <input class="form-control" type="password" name="mem_password" [(ngModel)]="addM.mem_password" required>
+                  <label>คำอธิบายสินค้า</label>
+                  <textarea class="form-control" name="pro_description" [(ngModel)]="product.pro_description" rows="3"></textarea>
                 </div>
 
                 <div class="form-group">
-                  <label class="control-label">รับข่าวสาร </label>
-                  &nbsp;
-                  <input type="checkbox" name="mem_newsletter" [(ngModel)]="addM.mem_newsletter">
+                  <label>รายระเอียดสินค้า</label>
+                  <textarea class="form-control" name="pro_description" [(ngModel)]="product.pro_description" rows="5"></textarea>
                 </div>
 
               </div>
               <div class="col-md-6">
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label class="control-label">หมายเลขโทรศัพท์ <span class="text-danger">*</span></label>
                   <input class="form-control" type="text" name="mem_tel" [(ngModel)]="addM.mem_tel" required>
                 </div>
@@ -111,13 +91,12 @@
                   <label class="control-label">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
                   <input class="form-control" type="password" name="mem_password_confirm"
                     [(ngModel)]="addM.mem_password_confirm" required>
-                </div>
-
+                </div> -->
               </div>
             </div>
             <div class="m-t-20 text-center">
-              <div *ngIf="addValidation" class="alert alert-info m-t-10">
-                <strong>แจ้งเตือน!</strong> {{massAdd}}
+              <div *ngIf="addMassStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{addMass}}
               </div>
               <button class="btn btn-primary" type="submit">เพิ่มสมาชิก</button>
             </div>
@@ -127,7 +106,7 @@
     </div>
   </div>
 
-  <div id="edit_member" class="modal custom-modal fade" role="dialog">
+  <!-- <div id="edit_member" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
       <div class="modal-content modal-lg">
