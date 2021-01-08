@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { enableProdMode } from '@angular/core';
 import { NumberDirective } from './numbers-only.directive';
 import { NgxBarcodeModule } from 'ngx-barcode';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AuthGuard } from './auth/AuthGuard';
 
 import { AppComponent } from './app.component';
@@ -74,7 +75,7 @@ const routes: Routes = [
     // OrderAgentComponent,
     // PrintLabelComponent,
     // PrintLabelThaipostComponent,
-    // WithdrawComponent
+    // WithdrawComponent,
   ],
   imports: [
     HttpClientModule,
@@ -91,6 +92,7 @@ const routes: Routes = [
     FullCalendarModule,
     MorrisJsModule,
     NgxBarcodeModule,
+    MatDialogModule,
     TooltipModule.forRoot(),
     RouterModule.forRoot(routes)
   ],

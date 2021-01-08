@@ -64,16 +64,40 @@
 
                 <div class="form-group">
                   <label>คำอธิบายสินค้า</label>
-                  <textarea class="form-control" name="pro_description" [(ngModel)]="product.pro_description" rows="3"></textarea>
+                  <textarea class="form-control" name="pro_description" [(ngModel)]="product.pro_description"
+                    rows="3"></textarea>
                 </div>
 
                 <div class="form-group">
                   <label>รายระเอียดสินค้า</label>
-                  <textarea class="form-control" name="pro_description" [(ngModel)]="product.pro_description" rows="5"></textarea>
+                  <textarea class="form-control" name="pro_description" [(ngModel)]="product.pro_description"
+                    rows="10"></textarea>
                 </div>
 
               </div>
               <div class="col-md-6">
+
+                <div class="form-group">
+                  <label>รูปสินค้า</label>
+                  <table class="table table-striped custom-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 80px">รูปที่</th>
+                        <th>รูปสินค้า</th>
+                        <th style="width: 30px">จัดการ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+
+                  <div class="m-t-20 text-center">
+                    <button class="btn btn-primary" type="button" (click)="uploadImage()">อัพโหลดรูปสินค้า</button>
+                  </div>
+
+                  <input id="uploadImage" type="file" (change)="openDialogAdd($event)" accept='image/*' style="display: none;">
+                </div>
+
                 <!-- <div class="form-group">
                   <label class="control-label">หมายเลขโทรศัพท์ <span class="text-danger">*</span></label>
                   <input class="form-control" type="text" name="mem_tel" [(ngModel)]="addM.mem_tel" required>
@@ -98,9 +122,23 @@
               <div *ngIf="addMassStatus" class="alert alert-info m-t-10">
                 <strong>แจ้งเตือน!</strong> {{addMass}}
               </div>
-              <button class="btn btn-primary" type="submit">เพิ่มสมาชิก</button>
+              <button class="btn btn-primary" type="submit">เพิ่มสินค้า</button>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="crop_image" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">เพิ่มสินค้า</h4>
+        </div>
+        <div class="modal-body">
+          
         </div>
       </div>
     </div>

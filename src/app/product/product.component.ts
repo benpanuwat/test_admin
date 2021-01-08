@@ -5,6 +5,7 @@ import { DataTablesResponse } from '../model/datatables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Product } from '../model/product';
 
+
 declare const $: any;
 
 @Component({
@@ -72,6 +73,15 @@ export class ProductComponent implements OnInit {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       dtInstance.ajax.reload();
     });
+  }
+
+  uploadImage() {
+    $("#uploadImage").click();
+  }
+
+
+  openDialogAdd(event) {
+
   }
 
 
