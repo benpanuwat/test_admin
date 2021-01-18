@@ -17,6 +17,7 @@ import { enableProdMode } from '@angular/core';
 import { NumberDirective } from './numbers-only.directive';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { AuthGuard } from './auth/AuthGuard';
 
 import { AppComponent } from './app.component';
@@ -93,6 +94,7 @@ const routes: Routes = [
     MorrisJsModule,
     NgxBarcodeModule,
     MatDialogModule,
+    ImageCropperModule,
     TooltipModule.forRoot(),
     RouterModule.forRoot(routes)
   ],

@@ -33,8 +33,8 @@ export class LoginPageComponent implements OnInit {
         if (res.code == 200) {
 
           localStorage.setItem("auth_admin", "true");
-          localStorage.setItem("id_admin", res.data.use_id);
-          localStorage.setItem("username_admin", res.data.use_username);
+          localStorage.setItem("id_admin", res.data.id);
+          localStorage.setItem("username_admin", res.data.username);
           localStorage.setItem("token_admin", res.data.token);
           window.location.href = "user";
         }

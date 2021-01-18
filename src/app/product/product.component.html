@@ -22,8 +22,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let product of products">
-                <td>{{ product.pro_id }}</td>
-                <td>{{ product.pro_name }}</td>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
                 <td class="text-right">
                   <div class="dropdown">
                     <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
@@ -47,7 +47,7 @@
 
 
   <div id="add_product" class="modal custom-modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" *ngIf="addStatus=='add'">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
       <div class="modal-content modal-lg">
         <div class="modal-header">
@@ -59,19 +59,33 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label class="control-label">ชื้อสินค้า <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="mem_email" [(ngModel)]="product.pro_name" required>
+                  <input class="form-control" type="text" name="name" [(ngModel)]="product.name" required>
                 </div>
 
                 <div class="form-group">
                   <label>คำอธิบายสินค้า</label>
-                  <textarea class="form-control" name="pro_description" [(ngModel)]="product.pro_description"
+                  <textarea class="form-control" name="description" [(ngModel)]="product.description"
                     rows="3"></textarea>
                 </div>
 
                 <div class="form-group">
                   <label>รายระเอียดสินค้า</label>
-                  <textarea class="form-control" name="pro_description" [(ngModel)]="product.pro_description"
+                  <textarea class="form-control" name="detail" [(ngModel)]="product.detail"
                     rows="10"></textarea>
+                </div>
+
+                <div class="form-group required-field">
+                  <label for="acc-name">หมวดหมู่สินค้า</label>
+                  <select class="select form-control" [(ngModel)]="product.category_id" name="category_id" required>
+                    <option *ngFor="let cat of category" value="{{cat.id}}">{{cat.name}}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label">ราคาตลาด (ราคาก่อนลดราคา) <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="standard_price" [(ngModel)]="product.standard_price"
+                    required numbersOnly>
                 </div>
 
               </div>
@@ -84,38 +98,102 @@
                       <tr>
                         <th style="width: 80px">รูปที่</th>
                         <th>รูปสินค้า</th>
-                        <th style="width: 30px">จัดการ</th>
+                        <th>รูปหลัก</th>
+                        <th style="width: 30px">ลบ</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <tr *ngFor="let image of product.images;index as i">
+                        <td style="width: 80px">{{i+1}}</td>
+                        <td><img style="width:60px;height: 60px;margin: 5px;" [src]="image.image" /></td>
+                        <td *ngIf="image.main ==true" style="width: 70px"><button class="btn btn-default" type="button"
+                            disabled>รูปหลัก</button></td>
+                        <td *ngIf="image.main ==false" style="width: 70px"><button class="btn btn-success" type="button"
+                            (click)="clickMain(image)">รูปหลัก</button></td>
+                        <td style="width: 30px"><button class="btn btn-danger" type="button"
+                            (click)="clickDeleteImage(image)">ลบ</button></td>
+                      </tr>
                     </tbody>
                   </table>
 
-                  <div class="m-t-20 text-center">
-                    <button class="btn btn-primary" type="button" (click)="uploadImage()">อัพโหลดรูปสินค้า</button>
+                  <div class="m-t-20 text-center" *ngIf="product.images.length < 8">
+                    <button class="btn btn-success" type="button" (click)="uploadImage()">อัพโหลดรูปสินค้า</button>
                   </div>
 
-                  <input id="uploadImage" type="file" (change)="openDialogAdd($event)" accept='image/*' style="display: none;">
+                  <input id="uploadImage" type="file" (change)="cropImage($event)" accept="image/x-png,image/jpeg"
+                    style="display: none;">
+                </div>
+
+                <div class="form-group">
+                  <label>รูปแบบสินค้า</label>
+                  <table class="table table-striped custom-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 40%">รูปแบบ</th>
+                        <th>ราคา</th>
+                        <th>คงเหลือ</th>
+                        <th style="width: 30px">ลบ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let type of product.types;index as i">
+                        <td><input class="form-control" type="text" name="type_name_{{i}}"
+                            [(ngModel)]="type.name" required></td>
+
+                        <td><input class="form-control" type="text" name="type_price_{{i}}"
+                            [(ngModel)]="type.price" required numbersOnly></td>
+
+                            <td><input class="form-control" type="text" name="type_stock_{{i}}"
+                              [(ngModel)]="type.stock" required numbersOnly></td>
+
+                        <td *ngIf="i == 0" style="width: 30px"><button class="btn btn-default" type="button"
+                            disabled>ลบ</button></td>
+                        <td *ngIf="i != 0" style="width: 30px"><button class="btn btn-danger" type="button"
+                            (click)="clickDeleteType(type)">ลบ</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="m-t-20 text-center" *ngIf="product.types.length < 5">
+                    <button class="btn btn-success" type="button" (click)="addType()">เพิ่มราคา</button>
+                  </div>
+
                 </div>
 
                 <!-- <div class="form-group">
-                  <label class="control-label">หมายเลขโทรศัพท์ <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="mem_tel" [(ngModel)]="addM.mem_tel" required>
-                </div>
-                <div class="form-group">
-                  <label class="control-label">นามสกุล <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="mem_lname" [(ngModel)]="addM.mem_lname" required>
-                </div>
-                <div class="form-group">
-                  <label class="control-label">วัน/เดือน/ปี เกิด <span class="text-danger">*</span></label>
-                  <input type="date" class="form-control" name="mem_birthday" [(ngModel)]="addM.mem_birthday" required>
-                </div>
+                  <label>ราคาสินค้า</label>
+                  <table class="table table-striped custom-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 40%">จำนวน</th>
+                        <th>ราคา</th>
+                        <th style="width: 30px">ลบ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let price of product.pro_price_list;index as i">
+                        <td *ngIf="i == 0">{{price.count}}</td>
+                        <td *ngIf="i != 0"><input class="form-control" type="text" name="count_{{i}}"
+                            [(ngModel)]="price.count" required numbersOnly></td>
 
-                <div class="form-group">
-                  <label class="control-label">ยืนยันรหัสผ่าน <span class="text-danger">*</span></label>
-                  <input class="form-control" type="password" name="mem_password_confirm"
-                    [(ngModel)]="addM.mem_password_confirm" required>
+                        <td *ngIf="i == 0">{{price.price}}</td>
+                        <td *ngIf="i != 0"><input class="form-control" type="text" name="price_{{i}}"
+                            [(ngModel)]="price.price" required numbersOnly></td>
+
+                        <td *ngIf="i == 0" style="width: 30px"><button class="btn btn-default" type="button"
+                            disabled>ลบ</button></td>
+                        <td *ngIf="i != 0" style="width: 30px"><button class="btn btn-danger" type="button"
+                            (click)="clickDeletePrice(price)">ลบ</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="m-t-20 text-center" *ngIf="product.pro_price_list.length < 5">
+                    <button class="btn btn-success" type="button" (click)="addPriceList()">เพิ่มราคา</button>
+                  </div>
+
                 </div> -->
+
               </div>
             </div>
             <div class="m-t-20 text-center">
@@ -123,6 +201,35 @@
                 <strong>แจ้งเตือน!</strong> {{addMass}}
               </div>
               <button class="btn btn-primary" type="submit">เพิ่มสินค้า</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-dialog" *ngIf="addStatus=='crop'">
+      <button type="button" class="close" (click)="addStatus='add'">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">จัดการรูปสินค้า</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30">
+            <div class="row">
+              <div class="col-md-12">
+                <div style="margin: auto;width: 50%;">
+                  <image-cropper style="max-width: 500px;" [imageChangedEvent]="originalImage"
+                    [maintainAspectRatio]="true" [aspectRatio]="1" format="png" (imageCropped)="imageCropped($event)">
+                  </image-cropper>
+                </div>
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="addMassStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{addMass}}
+              </div>
+              <button style="margin-right: 10px;" class="btn btn-default" type="button"
+                (click)="addStatus='add'">กลับ</button>
+              <button class="btn btn-primary" type="button" (click)="cropSave()">บันทึก</button>
             </div>
           </form>
         </div>
@@ -138,7 +245,7 @@
           <h4 class="modal-title">เพิ่มสินค้า</h4>
         </div>
         <div class="modal-body">
-          
+
         </div>
       </div>
     </div>

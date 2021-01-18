@@ -76,10 +76,10 @@ export class MemberComponent implements OnInit {
           });
       },
       columns: [
-        { data: "mem_id" },
-        { data: "mem_fname" },
-        { data: "mem_lname" },
-        { data: "mem_tel" },
+        { data: "id" },
+        { data: "fname" },
+        { data: "lname" },
+        { data: "tel" },
       ],
     };
   }

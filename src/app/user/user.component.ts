@@ -59,10 +59,10 @@ export class UserComponent implements OnInit {
           });
       },
       columns: [
-        { data: "use_id" },
-        { data: "use_fname" },
-        { data: "use_lname" },
-        { data: "use_email" },
+        { data: "id" },
+        { data: "fname" },
+        { data: "lname" },
+        { data: "email" },
       ],
     };
   }

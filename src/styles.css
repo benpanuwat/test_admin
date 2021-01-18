@@ -5075,3 +5075,7 @@ table.table-inbox tbody tr.checked {
 		top: 113px;
 	}
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

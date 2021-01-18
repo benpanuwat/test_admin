@@ -2,7 +2,7 @@
 <div class="header-main">
     <div class="header-left">
         <a routerLink="/member" class="logo">
-            <img src="assets/img/logo.png" width="40" height="40" alt="">
+            <!-- <img src="assets/img/logo.png" width="40" height="40" alt=""> -->
         </a>
     </div>
     <a [ngClass]="[url === 'inbox'?'dsply-none':'', url === 'calls'?'dsply-none':'', url === 'settings'?'dsply-none':'', url === 'chat'?'dsply-none':'']" id="toggle_btn" href="javascript:void(0);"><i class="la la-bars"></i></a>
@@ -97,7 +97,7 @@
             <a href="javascript:" class="dropdown-toggle user-link" data-toggle="dropdown">
                 <!-- <span *ngIf="use.use_image ==''" class="user-img"><img class="img-circle" src="assets/img/profile.png" width="40" height="40" ></span>
                 <span *ngIf="use.use_image !=''" class="user-img"><img class="img-circle"  [src]="use.use_image" width="40" height="40" ></span> -->
-                <span class="m-l-5">{{use.name}}</span>
+                <span class="m-l-5">{{use.username}}</span>
                 <i class="caret m-l-5"></i>
             </a>
             <ul class="dropdown-menu">

@@ -11,25 +11,24 @@ declare const $: any;
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit,AfterViewInit {
+export class HeaderComponent implements OnInit, AfterViewInit {
 
-  public use: any = {id:"",name:""};
+  public use: any = { id: "", username: "" };
 
   opts1: ISlimScrollOptions;
-  menuSidebar:boolean = false;
+  menuSidebar: boolean = false;
 
   public url;
-  
 
-  constructor(private http: HttpClient,private appserver: AppService,private router: Router, private activatedRoute: ActivatedRoute) {
+
+  constructor(private http: HttpClient, private appserver: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
     router.events.subscribe((event: Event) => {
 
       if (event instanceof NavigationEnd) {
         this.url = event.url.split('/')[1].split("?")[0];
         //console.log(this.url);
-        if(this.url === 'inbox' || this.url === 'chats' || this.url === 'settings' || this.url === 'calls')
-        {
-          if($('body').hasClass('mini-sidebar')) {
+        if (this.url === 'inbox' || this.url === 'chats' || this.url === 'settings' || this.url === 'calls') {
+          if ($('body').hasClass('mini-sidebar')) {
             $('body').removeClass('mini-sidebar');
             $('.subdrop + ul').slideDown();
           }
@@ -37,19 +36,19 @@ export class HeaderComponent implements OnInit,AfterViewInit {
       }
     });
   }
-  
-  ngAfterViewInit(){
-    var h=$(window).height()-124;
+
+  ngAfterViewInit() {
+    var h = $(window).height() - 124;
     $('.msg-list-scroll').height(h);
-    $('.msg-sidebar .slimscroll-wrapper').height(h);  
-    
+    $('.msg-sidebar .slimscroll-wrapper').height(h);
+
   }
 
   ngOnInit() {
 
     this.use.id = localStorage.getItem('id_admin');
-    this.use.name = localStorage.getItem('name_admin');
-    
+    this.use.username = localStorage.getItem('username_admin');
+
     this.opts1 = {
       barBackground: '#878787',
       gridBackground: 'transparent',
@@ -62,45 +61,44 @@ export class HeaderComponent implements OnInit,AfterViewInit {
 
     //console.log($(window).height());
 
-    var h=$(window).height()-124;
+    var h = $(window).height() - 124;
     $('.msg-list-scroll').height(h);
-    $('.msg-sidebar .slimscroll-wrapper').height(h);  
-    
-    $(window).resize(function(){
-        var h=$(window).height()-124;
-        $('.msg-list-scroll').height(h);
-        $('.msg-sidebar .slimscroll-wrapper').height(h);
+    $('.msg-sidebar .slimscroll-wrapper').height(h);
+
+    $(window).resize(function () {
+      var h = $(window).height() - 124;
+      $('.msg-list-scroll').height(h);
+      $('.msg-sidebar .slimscroll-wrapper').height(h);
     });
 
-      $(document).on('click','#toggle_btn', function() {
-        if($('body').hasClass('mini-sidebar')) {
-          $('body').removeClass('mini-sidebar');
+    $(document).on('click', '#toggle_btn', function () {
+      if ($('body').hasClass('mini-sidebar')) {
+        $('body').removeClass('mini-sidebar');
+        $('.subdrop + ul').slideDown();
+
+      } else {
+        $('body').addClass('mini-sidebar');
+        $('.subdrop + ul').slideUp();
+      }
+      return false;
+    });
+
+    $(document).on('mouseover', function (e) {
+      e.stopPropagation();
+      if ($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
+        var targ = $(e.target).closest('.sidebar').length;
+        if (targ) {
+          $('body').addClass('expand-menu');
           $('.subdrop + ul').slideDown();
-          
         } else {
-          $('body').addClass('mini-sidebar');
+          $('body').removeClass('expand-menu');
           $('.subdrop + ul').slideUp();
         }
-        return false;
-      });	
-      
-      $(document).on('mouseover', function(e){
-        e.stopPropagation();
-        if($('body').hasClass('mini-sidebar') && $('#toggle_btn').is(':visible')) {
-          var targ = $(e.target).closest('.sidebar').length;
-          if(targ) {
-            $('body').addClass('expand-menu');
-            $('.subdrop + ul').slideDown();
-          } else {
-            $('body').removeClass('expand-menu');
-            $('.subdrop + ul').slideUp();
-          }
-        }
-      });
-    if($(window).width() > 991)
-    {
+      }
+    });
+    if ($(window).width() > 991) {
     }
-    
+
   }
 
   clickLogout() {
