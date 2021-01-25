@@ -29,7 +29,7 @@ export class UserComponent implements OnInit {
   ngOnInit() {
 
     this.headers = new HttpHeaders();
-    this.headers = this.headers.append('Authorization', "Bearer " + localStorage.getItem('token'));
+    this.headers = this.headers.append('Authorization', "Bearer " + localStorage.getItem('token_admin'));
 
     this.loadDataUser();
 
