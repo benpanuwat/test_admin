@@ -14,6 +14,7 @@ declare const $: any;
 })
 export class UserComponent implements OnInit {
 
+  public loading = false;
   public headers: HttpHeaders;
 
   @ViewChild(DataTableDirective)
@@ -37,6 +38,8 @@ export class UserComponent implements OnInit {
 
   loadDataUser() {
 
+    this.loading = true;
+    
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
@@ -50,6 +53,7 @@ export class UserComponent implements OnInit {
             dataTablesParameters, { headers: this.headers }
           ).subscribe(resp => {
             this.users = resp.data;
+            this.loading = false;
 
             callback({
               recordsTotal: resp.total,

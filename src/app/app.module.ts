@@ -19,6 +19,7 @@ import { NgxBarcodeModule } from 'ngx-barcode';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AuthGuard } from './auth/AuthGuard';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login/login.component';
@@ -95,6 +96,7 @@ const routes: Routes = [
     NgxBarcodeModule,
     MatDialogModule,
     ImageCropperModule,
+    NgxLoadingModule,
     TooltipModule.forRoot(),
     RouterModule.forRoot(routes)
   ],
