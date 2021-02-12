@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrintLabelThaipostComponent } from './print-label-thaipost.component';
+import { CancelComponent } from './cancel.component';
 
-describe('PrintLabelThaipostComponent', () => {
-  let component: PrintLabelThaipostComponent;
-  let fixture: ComponentFixture<PrintLabelThaipostComponent>;
+describe('CancelComponent', () => {
+  let component: CancelComponent;
+  let fixture: ComponentFixture<CancelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrintLabelThaipostComponent ]
+      declarations: [ CancelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PrintLabelThaipostComponent);
+    fixture = TestBed.createComponent(CancelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,9 +1,8 @@
 export class Order {
-    ord_id: number;
-    ord_createdate: string;
-    pro_name: string;
-    prot_name: string;
-    ord_price: number;
-    ord_count: number;
-    ord_status: string;
+    code: string;
+    fname: string;
+    lname: string;
+    price_total: string;
+    created_at: string;
+    status: string;
 }

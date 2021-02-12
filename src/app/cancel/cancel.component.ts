@@ -9,10 +9,10 @@ declare const $: any;
 
 @Component({
   selector: 'app-payment',
-  templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.css']
+  templateUrl: './cancel.component.html',
+  styleUrls: ['./cancel.component.css']
 })
-export class PaymentComponent implements OnInit {
+export class CancelComponent implements OnInit {
   public loading = false;
   public headers: HttpHeaders;
 
@@ -59,7 +59,7 @@ export class PaymentComponent implements OnInit {
       ajax: (dataTablesParameters: any, callback) => {
 
         this.http
-          .post<DataTablesResponse>(this.service.url + '/api/table_payment_back', dataTablesParameters, { headers: this.headers })
+          .post<DataTablesResponse>(this.service.url + '/api/table_cancel_back', dataTablesParameters, { headers: this.headers })
           .subscribe(resp => {
             this.orders = resp.data;
             this.loading = false;
@@ -87,14 +87,11 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  clickShowCheckPayment(order) {
+  clickShowCheckCancel(order) {
 
-    this.http.post<any>(this.service.url + '/api/get_payment_detail_back', order, { headers: this.headers }).subscribe(res => {
+    this.http.post<any>(this.service.url + '/api/get_cancel_detail_back', order, { headers: this.headers }).subscribe(res => {
       if (res.code == 200) {
         this.order = res.data;
-
-        this.order.slip = this.service.url + '/' + this.order.slip;
-
         let that = this;
         this.order.order_product.forEach(function (value) {
           value.path = that.service.url + '/' + value.path;
@@ -102,15 +99,15 @@ export class PaymentComponent implements OnInit {
       }
     });
 
-    $('#check_payment').modal('show');
+    $('#check_cancel').modal('show');
   }
 
 
-  clickAcceptPayment(order) {
-    this.http.post<any>(this.service.url + '/api/accept_payment_back', order, { headers: this.headers }).subscribe(res => {
+  clickCancel(order) {
+    this.http.post<any>(this.service.url + '/api/update_cancel_back', order, { headers: this.headers }).subscribe(res => {
       if (res.code == 200) {
         this.rerender();
-        $('#check_payment').modal('hide');
+        $('#check_cancel').modal('hide');
       }
       else if (res.code == 401) {
         localStorage.clear();
@@ -123,14 +120,6 @@ export class PaymentComponent implements OnInit {
 
   }
 
-  clickRejectPayment(order) {
-    this.http.post<any>(this.service.url + '/api/reject_payment_back', order, { headers: this.headers }).subscribe(res => {
-      if (res.code == 200) {
-        this.rerender();
-        $('#check_payment').modal('hide');
-      }
-    });
-  }
 
   showMassageAlert(mass) {
     this.massStatus = true;

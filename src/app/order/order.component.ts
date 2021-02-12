@@ -5,76 +5,72 @@ import { DataTablesResponse } from '../model/datatables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Order } from '../model/order';
 
+
+declare const $: any;
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })
 export class OrderComponent implements OnInit {
-
+  public loading = false;
   public headers: HttpHeaders;
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtOptions: DataTables.Settings = {};
-
   orders: Order[];
 
-  constructor(private http: HttpClient, private appserver: AppService) { }
+  public order: any = {
+    member:{
+      fname:''
+    },
+    address:{
+      name:''
+    }
+  };
+
+  constructor(private http: HttpClient, private service: AppService) {
+  }
+
+
+  ngOnInit() {
+    this.headers = new HttpHeaders();
+    this.headers = this.headers.append('Authorization', localStorage.getItem('token_admin'));
+
+    this.loadDataOrder();
+  }
 
   loadDataOrder() {
-
+    this.loading = true;
     this.dtOptions = {
       pagingType: 'full_numbers',
       serverSide: true,
       pageLength: 10,
       autoWidth: false,
-      language: {
-        processing: "ประมวลผล...",
-        search: "ค้นหา",
-        lengthMenu: "แสดง _MENU_ รายการ",
-        info: "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-        infoEmpty: "ไม่พบข้อมูลที่ค้นหา",
-        infoFiltered: "(ค้นหาจากทั้นหมด _MAX_ รายการ)",
-        infoPostFix: "",
-        loadingRecords: "ประมวลผล...",
-        paginate: {
-          first: "หน้าแรก",
-          previous: "หน้าก่อนหน้า",
-          next: "หน้าถัดไป",
-          last: "หน้าสุดท้าย"
-        }
-      },
+      order: [[0, 'desc']],
       ajax: (dataTablesParameters: any, callback) => {
 
-        dataTablesParameters.mem_id = localStorage.getItem('id_admin');
-        dataTablesParameters.userlogin = {
-          id: localStorage.getItem('id_admin'),
-          name: localStorage.getItem('name_admin'),
-          email: localStorage.getItem('email_admin')
-        };
-
         this.http
-          .post<DataTablesResponse>(this.appserver.server + '/order/get_order_table.php', dataTablesParameters, { headers: this.headers })
+          .post<DataTablesResponse>(this.service.url + '/api/table_order_back', dataTablesParameters, { headers: this.headers })
           .subscribe(resp => {
             this.orders = resp.data;
+            this.loading = false;
 
             callback({
-              recordsTotal: resp.recordsTotal,
-              recordsFiltered: resp.recordsFiltered,
+              recordsTotal: resp.total,
+              recordsFiltered: resp.total,
               data: [],
             });
           });
       },
       columns: [
-        { data: "ord_id" },
-        { data: "ord_createdate" },
-        { data: "pro_name" },
-        { data: "prot_name" },
-        { data: "ord_price" },
-        { data: "ord_count" },
-        { data: "ord_logi_price" },
-        { data: "ord_status" },
+        { data: "code" },
+        { data: "fname" },
+        { data: "lname" },
+        { data: "price_total" },
+        { data: "created_at" },
+        { data: "status" }
       ],
     };
   }
@@ -85,28 +81,36 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.headers = new HttpHeaders();
-    this.headers = this.headers.append('Authorization', localStorage.getItem('token_admin'));
+  clickShowDetailOrder(order) {
+    this.http.post<any>(this.service.url + '/api/get_order_detail_back', order, { headers: this.headers }).subscribe(res => {
+      if (res.code == 200) {
+        this.order = res.data;
 
-    this.loadDataOrder();
+        let that = this;
+        this.order.order_product.forEach(function (value) {
+          value.path = that.service.url + '/' + value.path;
+        });
+      }
+    });
+
+    $('#order_detail').modal('show');
   }
 
   clickCancelOrder(ord) {
     if (confirm("ต้องการรายการสั่งซื้อนี้หรือไม่")) {
 
-      ord.mem_id = localStorage.getItem('id_admin');
-      ord.userlogin = {
-          id: localStorage.getItem('id_admin'),
-          name: localStorage.getItem('name_admin'),
-          email: localStorage.getItem('email_admin')
-        };
+      // ord.mem_id = localStorage.getItem('id_admin');
+      // ord.userlogin = {
+      //     id: localStorage.getItem('id_admin'),
+      //     name: localStorage.getItem('name_admin'),
+      //     email: localStorage.getItem('email_admin')
+      //   };
 
-      this.http.post<any>(this.appserver.server + '/order/cancel_order.php', ord, { headers: this.headers }).subscribe(data => {
-        if (data.status) {
-          this.rerender();
-        }
-      });
+      // this.http.post<any>(this.appserver.server + '/order/cancel_order.php', ord, { headers: this.headers }).subscribe(data => {
+      //   if (data.status) {
+      //     this.rerender();
+      //   }
+      // });
     }
   }
 

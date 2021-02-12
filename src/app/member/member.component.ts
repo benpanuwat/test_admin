@@ -14,6 +14,7 @@ declare const $: any;
 })
 export class MemberComponent implements OnInit {
 
+  public loading = false;
   public headers: HttpHeaders;
 
   @ViewChild(DataTableDirective)
@@ -30,14 +31,17 @@ export class MemberComponent implements OnInit {
     use_action: "0"
   };
 
+  public member: any = {
+    email: "",
+    password: "",
+    password_confirm: "",
+    fname: "",
+    lname: "",
+    tel: ""
+  };
 
-  public addM: any = {};
-  public uptM: any = {};
-
-  addValidation: boolean = false;
-  massAdd: string = "";
-  editValidation: boolean = false;
-  massEdit: string = "";
+  massStatus: boolean = false;
+  mass: string = "";
 
   constructor(private http: HttpClient, private service: AppService) {
 
@@ -54,6 +58,8 @@ export class MemberComponent implements OnInit {
 
   loadDataMember() {
 
+    this.loading = true;
+
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
@@ -67,6 +73,7 @@ export class MemberComponent implements OnInit {
             dataTablesParameters, { headers: this.headers }
           ).subscribe(resp => {
             this.members = resp.data;
+            this.loading = false;
 
             callback({
               recordsTotal: resp.total,
@@ -77,6 +84,7 @@ export class MemberComponent implements OnInit {
       },
       columns: [
         { data: "id" },
+        { data: "email" },
         { data: "fname" },
         { data: "lname" },
         { data: "tel" },
@@ -90,111 +98,103 @@ export class MemberComponent implements OnInit {
     });
   }
 
-  // clickShowAddMember() {
-  //   this.addM = {
-  //     mem_email: "",
-  //     mem_password: "",
-  //     mem_password_confirm: "",
-  //     mem_fname: "",
-  //     mem_lname: "",
-  //     mem_tel: "",
-  //     mem_sex: "",
-  //     mem_birthday: "",
-  //     mem_newsletter: false
-  //   };
-  //   $('#add_member').modal('show');
-  // }
+  clickShowAddMember() {
+    this.member = {
+      email: "",
+      password: "",
+      password_confirm: "",
+      fname: "",
+      lname: "",
+      tel: ""
+    };
+    $('#add_member').modal('show');
+  }
 
-  // clickAddMember(f) {
+  clickAddMember(f) {
 
-  //   if (f.invalid === true) {
-  //     this.addValidation = true;
-  //     this.massAdd = "กรุณากรอกข้อมูลให้ครับถ้วน";
-  //   }
-  //   else if (this.addM.mem_password.length < 8 || this.addM.mem_password_confirm.length < 8) {
-  //     this.addValidation = true;
-  //     this.massAdd = "กรุณากำหนดรหัสผ่านมากกว่า 8 ตัวอักษร";
-  //   }
-  //   else if (this.addM.mem_password != this.addM.mem_password_confirm) {
-  //     this.addValidation = true;
-  //     this.massAdd = "รหัสผ่านและยืนยันระหัสผ่านไม่ตรงกัน";
-  //   }
-  //   else {
-  //     this.addValidation = false;
+    if (f.invalid === true) {
+      this.showMassageAlert("กรุณากรอกข้อมูลให้ครับถ้วน");
+    }
+    else if (this.member.password.length < 8 || this.member.password_confirm.length < 8) {
+      this.showMassageAlert("กรุณากำหนดรหัสผ่านมากกว่า 8 ตัวอักษร");
+    }
+    else if (this.member.password != this.member.password_confirm) {
+      this.showMassageAlert("รหัสผ่านและยืนยันระหัสผ่านไม่ตรงกัน");
+    }
+    else {
+      this.http.post<any>(this.service.url + '/api/create_member_back', this.member, { headers: this.headers }).subscribe(data => {
+        if (data.code == 200) {
+          this.rerender();
+          $('#add_member').modal('hide');
+        }
+        else if (data.code == 401) {
+          localStorage.clear();
+          window.location.href = "login";
+        }
+        else {
+          this.showMassageAlert(data.massage);
+        }
+      });
+    }
+  }
 
-  //     this.addM.mem_id = localStorage.getItem('id_admin');
-  //     this.addM.userlogin = {
-  //       id: localStorage.getItem('id_admin'),
-  //       name: localStorage.getItem('name_admin'),
-  //       email: localStorage.getItem('email_admin')
-  //     };
+  clickShowUpdateMember(member) {
+    this.member = member;
 
-  //     this.http.post<any>(this.appserver.server + '/member/create_member.php', this.addM, { headers: this.headers }).subscribe(data => {
-  //       if (data.status) {
-  //         this.rerender();
-  //       }
-  //     });
+    $('#update_member').modal('show');
+  }
 
-  //     $('#add_member').modal('hide');
-  //   }
-  // }
+  clickUpdateMember(f) {
+    if (f.invalid === true) {
+      this.showMassageAlert("กรุณากรอกข้อมูลให้ครบถ้วน");
+    }
+    else {
 
-  // clickShowEditMember(member) {
-  //   this.uptM = member;
-  //   this.uptM.mem_password = "";
-  //   this.uptM.mem_password_confirm = "";
-  //   this.uptM.mem_changepass = false;
+      this.http.post<any>(this.service.url + '/api/update_memder_back', this.member, { headers: this.headers }).subscribe(data => {
+        if (data.code == 200) {
+          this.rerender();
+          $('#update_member').modal('hide');
+        }
+        else if (data.code == 401) {
+          localStorage.clear();
+          window.location.href = "login";
+        }
+        else {
+          this.showMassageAlert(data.massage);
+        }
+      });
+    }
+  }
 
-  //   this.uptM.mem_id = localStorage.getItem('id_admin');
-  //   this.uptM.userlogin = {
-  //     id: localStorage.getItem('id_admin'),
-  //     name: localStorage.getItem('name_admin'),
-  //     email: localStorage.getItem('email_admin')
-  //   };
+  clickShowUpdatePassword(member) {
+    this.member = member;
+    $('#update_password').modal('show');
+  }
 
-  //   $('#edit_member').modal('show');
-  // }
+  clickUpdatePassword(f) {
 
-  // clickEditMember(f) {
-  //   if (f.invalid === true) {
-  //     this.editValidation = true;
-
-  //     this.massEdit = "กรุณากรอกข้อมูลให้ครบถ้วน";
-  //   }
-  //   else {
-
-  //     if (this.uptM.mem_changepass) {
-  //       if (this.uptM.mem_password.length < 8 || this.uptM.mem_password_confirm.length < 8) {
-  //         this.editValidation = true;
-  //         this.massEdit = "กรุณากำหนดรหัสผ่านมากกว่า 8 ตัวอักษร";
-  //       }
-  //       else if (this.uptM.mem_password != this.uptM.mem_password_confirm) {
-  //         this.editValidation = true;
-  //         this.massEdit = "รหัสผ่านและยืนยันระหัสผ่านไม่ตรงกัน";
-  //       }
-  //       else {
-  //         this.editValidation = false;
-
-  //         this.http.post<any>(this.appserver.server + '/member/edit_member.php', this.uptM, { headers: this.headers }).subscribe(data => {
-  //           if (data.status) {
-  //             this.rerender();
-  //           }
-  //         });
-
-  //         $('#edit_member').modal('hide');
-  //       }
-  //     }
-  //     else {
-  //       this.http.post<any>(this.appserver.server + '/member/edit_member.php', this.uptM, { headers: this.headers }).subscribe(data => {
-  //         if (data.status) {
-  //           this.rerender();
-  //         }
-  //       });
-
-  //       $('#edit_member').modal('hide');
-  //     }
-  //   }
-  // }
+    if (this.member.password.length < 8 || this.member.password_confirm.length < 8) {
+      this.showMassageAlert("กรุณากำหนดรหัสผ่านมากกว่า 8 ตัวอักษร");
+    }
+    else if (this.member.password != this.member.password_confirm) {
+      this.showMassageAlert("รหัสผ่านและยืนยันระหัสผ่านไม่ตรงกัน");
+    }
+    else {
+      this.http.post<any>(this.service.url + '/api/update_password_back', this.member, { headers: this.headers }).subscribe(data => {
+        if (data.code == 200) {
+          this.rerender();
+          $('#update_password').modal('hide');
+        }
+        else if (data.code == 401) {
+          localStorage.clear();
+          window.location.href = "login";
+        }
+        else {
+          this.showMassageAlert(data.massage);
+        }
+      });
+    }
+  }
 
   // clickDeleteCustomer(customer) {
   //   // if (confirm("ต้องการลบลูกค้านี้หรือไม่")) {
@@ -205,5 +205,16 @@ export class MemberComponent implements OnInit {
   //   //     }
   //   //   });
   //   // }
-  // }
+
+
+
+  showMassageAlert(mass) {
+    this.massStatus = true;
+    this.mass = mass;
+
+    setTimeout(function () {
+      this.massStatus = false;
+      this.mass = "";
+    }, 3000);
+  }
 }

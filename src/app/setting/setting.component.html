@@ -3,104 +3,55 @@
   <div class="content container-fluid">
     <div class="row">
       <div class="col-xs-4">
-        <h4 class="page-title">ตั้งค่าเว็บไซต์</h4>
+        <h4 class="page-title">ตั้งค่าเว็บ</h4>
       </div>
       <div class="col-xs-8 text-right m-b-30"></div>
     </div>
+    
 
     <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>ตั้งค่าแบนเนอร์หน้าหลัก (1200 x 500)</label>
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 80px">รูปที่</th>
+                <th>รูปแบนเนอร์</th>
+                <th style="width: 30px">ลบ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ban of setting.banner;index as i">
+                <td style="width: 80px">{{i+1}}</td>
+                <td *ngIf="ban.image == ''"><img style="height: 100px;margin: 5px;" [src]="ban.path" /></td>
+                <td *ngIf="ban.image != ''"><img style="height: 100px;margin: 5px;" [src]="ban.image" /></td>
+                <td style="width: 30px"><button class="btn btn-danger" type="button"
+                    (click)="clickDeleteBanner(ban)">ลบ</button></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="m-t-20 text-center" *ngIf="setting.banner.length < 5">
+            <button class="btn btn-success" type="button" (click)="uploadImage()">อัพโหลดรูปแบนเนอร์</button>
+          </div>
+
+          <input id="uploadImage" type="file" (change)="loadImage($event)" accept="image/x-png,image/jpeg"
+            style="display: none;">
+        </div>
+      </div>
       <div class="col-md-12">
-        <form>
-          <div class="form-group row">
-            <label class="col-lg-2 col-form-label">Website Name</label>
-            <div class="col-lg-10">
-              <input id="e_title" class="form-control" value="{{settings[0].title}}" type="text" />
-            </div>
+        <div class="m-t-20 text-center">
+          <div *ngIf="massStatus" class="alert alert-info m-t-10">
+            <strong>แจ้งเตือน!</strong> {{mass}}
           </div>
-          <div class="form-group row">
-            <label class="col-lg-2 col-form-label">Keywords</label>
-            <div class="col-lg-10">
-              <input
-                class="form-control"
-                value="{{settings[0].keyword}}"
-                type="text"
-              />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-lg-2 col-form-label">Description</label>
-            <div class="col-lg-10">
-              <textarea rows="4" class="form-control" type="text">{{settings[0].description}}</textarea>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-lg-2 col-form-label">Google Analystic</label>
-            <div class="col-lg-10">
-              <textarea rows="6" class="form-control" type="text">{{settings[0].google_analystic}}</textarea>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-lg-2 col-form-label">Facebook Pixel</label>
-            <div class="col-lg-10">
-              <textarea rows="6" class="form-control" type="text">{{settings[0].facebook_pixcel}}</textarea>
-            </div>
-          </div>
-          <div class="submit-section text-right">
-            <a href="javascript:" class="btn btn-primary rounded"
-              ><i class="fa fa-plus"></i> บันทึก</a
-            >
-          </div>
-          <hr />
-          <div class="form-group row">
-            <label class="col-lg-2 col-form-label">Light Logo</label>
-            <div class="col-lg-6">
-              <input type="file" id="e_logo" class="form-control" />
-              <span class="form-text text-muted"
-                >Recommended image size is 100px x 100px</span
-              >
-            </div>
-            <div class="col-lg-2">
-              <button class="btn btn-primary submit-logo">Upload</button>
-            </div>
-            <div class="col-lg-2">
-              <div class="img-thumbnail float-right">
-                <img
-                  id="logo"
-                  alt=""
-                  width="90"
-                  height="40"
-                  src="https://www.dropy.co.th/assets/images/logo-dark.png"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-lg-2 col-form-label">Favicon</label>
-            <div class="col-lg-6">
-              <input type="file" id="e_icon" class="form-control" />
-              <span class="form-text text-muted"
-                >Recommended image size is 16px x 16px</span
-              >
-            </div>
-            <div class="col-lg-2">
-              <button class="btn btn-primary submit-icon">Upload</button>
-            </div>
-            <div class="col-lg-2">
-              <div class="settings-image img-thumbnail float-right">
-                <img
-                  id="icon"
-                  class="img-fluid"
-                  width="16"
-                  height="16"
-                  alt=""
-                  src="https://www.dropy.co.th/assets/images/icons/favicon.ico"
-                />
-              </div>
-            </div>
-          </div>
-        </form>
+          <button class="btn btn-primary" type="button" (click)="clickSave()">บันทึก</button>
+        </div>
       </div>
     </div>
   </div>
   <!-- /Page Content -->
 </div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+

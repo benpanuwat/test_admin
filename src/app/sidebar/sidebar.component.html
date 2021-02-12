@@ -12,25 +12,26 @@
         <li [ngClass]="url === 'member'? 'active' : 'null'">
           <a routerLink="member"><i class="la la-users"></i> <span> สมาชิก </span></a>
         </li>
+        <li [ngClass]="url === 'category'? 'active' : 'null'">
+          <a routerLink="category"><i class="la la-tags"></i> <span> หมวดหมู่สินค้า </span></a>
+        </li>
         <li [ngClass]="url === 'product'? 'active' : 'null'">
           <a routerLink="product"><i class="la la-box"></i> <span> สินค้า </span></a>
         </li>
         <li [ngClass]="url === 'order'? 'active' : 'null'">
           <a routerLink="order"><i class="la la-file-alt"></i> <span> รายการสั่งซื้อ </span></a>
         </li>
-        <!-- <li [ngClass]="url === 'orderagent'? 'active' : 'null'">
-          <a routerLink="orderagent"><i class="la la-file-alt"></i> <span> รายการสั่งซื้อดรอปชิปเปอร์ </span></a>
-        </li> -->
         <li [ngClass]="url === 'payment'? 'active' : 'null'">
           <a routerLink="payment"><i class="la la-dollar-sign"></i> <span> ชำระเงิน </span></a>
-        <!-- <li [ngClass]="url === 'print'? 'active' : 'null'">
-          <a routerLink="print"><i class="las la-print"></i> <span> พิมพ์ใบส่งของ </span></a>
         </li>
-        <li [ngClass]="url === 'withdraw'? 'active' : 'null'">
-          <a routerLink="withdraw"><i class="las la-wallet"></i> <span> ถอนเงิน </span></a>
+        <li [ngClass]="url === 'packing'? 'active' : 'null'">
+          <a routerLink="packing"><i class="la la-boxes"></i> <span> บรรจุสินค้า </span></a>
         </li>
-        <li [ngClass]="url === 'blog'? 'active' : 'null'">
-          <a routerLink="blog"><i class="la la-book"></i> <span> บทความ </span></a> -->
+        <li [ngClass]="url === 'delivery'? 'active' : 'null'">
+          <a routerLink="delivery"><i class="la la-truck"></i> <span> จัดส่ง </span></a>
+        </li>
+        <li [ngClass]="url === 'cancel'? 'active' : 'null'">
+          <a routerLink="cancel"><i class="la la-window-close"></i> <span> ยกเลิกสั่งซื้อ </span></a>
         </li>
         <li [ngClass]="url === 'setting'? 'active' : 'null'">
           <a routerLink="setting"><i class="la la-cog"></i> <span> ตั้งค่าเว็บ </span></a>

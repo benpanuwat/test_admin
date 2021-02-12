@@ -1,0 +1,206 @@
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-xs-4">
+        <h4 class="page-title">หมวดหมู่สินค้า</h4>
+      </div>
+      <div class="col-xs-8 text-right m-b-30">
+        <a href="javascript:" class="btn btn-primary rounded" (click)="clickShowAddCategory()"><i
+            class="fa fa-plus"></i>
+          เพิ่มหมวดหมู่สินค้า</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive bottom40">
+          <table datatable [dtOptions]="dtOptions" class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 50px">รหัส</th>
+                <th style="width: 100px">รูปหมวดหมู่</th>
+                <th>ชื่อ</th>
+                <th style="width: 30px">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let category of categorys">
+                <td>{{ category.id }}</td>
+                <td><img width="80" [src]="category.path"></td>
+                <td>{{ category.name }}</td>
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a href="javascript:" (click)="clickShowUpdateCategory(category)"><i
+                            class="fa fa-pencil m-r-5"></i>
+                          แก้ไข</a></li>
+                          <li><a href="javascript:" (click)="clickDeleteCategory(category)"><i
+                            class="fa fa-trash m-r-5"></i>
+                          ลบ</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="categorys?.length == 0">
+                <td colspan="3" class="no-data-available">ไม่พบข้อมูล!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="add_category" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog" *ngIf="addStatus=='add'">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">เพิ่มหมวดหมู่สินค้า</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30" #addForm="ngForm" (ngSubmit)="clickAddCategory(addForm)" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">ภาพหมวดหมู่สินค้า<span class="text-danger">*</span></label>
+                  <div>
+                    <img *ngIf="category.image ==''" style="cursor: pointer;border: 1px solid black" width="150"
+                      height="150" src="assets/img/category.png" (click)="uploadImage()">
+                    <img *ngIf="category.image !=''" style="cursor: pointer;border: 1px solid black" width="150"
+                      height="150" [src]="category.image" (click)="uploadImage()">
+                  </div>
+                </div>
+
+                <input id="uploadImage" type="file" (change)="cropImage($event)" accept="image/x-png,image/jpeg"
+                  style="display: none;">
+
+                <div class="form-group">
+                  <label class="control-label">ชื้อหมวดหมู่สินค้า <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="name" [(ngModel)]="category.name" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="massStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{mass}}
+              </div>
+              <button class="btn btn-primary" type="submit">เพิ่มหมวดหมู่สินค้า</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-dialog" *ngIf="addStatus=='crop'">
+      <button type="button" class="close" (click)="addStatus='add'">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">จัดการรูปสินค้า</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30">
+            <div class="row">
+              <div class="col-md-12">
+                <div style="margin: auto;width: 50%;">
+                  <image-cropper style="max-width: 500px;" [imageChangedEvent]="originalImage"
+                    [maintainAspectRatio]="true" [aspectRatio]="1" format="png" (imageCropped)="imageCropped($event)">
+                  </image-cropper>
+                </div>
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="massStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{mass}}
+              </div>
+              <button style="margin-right: 10px;" class="btn btn-default" type="button"
+                (click)="addStatus='add'">กลับ</button>
+              <button class="btn btn-primary" type="button" (click)="cropSave()">บันทึก</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="update_category" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog" *ngIf="addStatus=='add'">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">แก้ไขหมวดหมู่สินค้า</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30" #updateForm="ngForm" (ngSubmit)="clickUpdateCategory(updateForm)" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="control-label">ภาพหมวดหมู่สินค้า<span class="text-danger">*</span></label>
+                  <div>
+                    <img *ngIf="category.image ==''" style="cursor: pointer;border: 1px solid black" width="150"
+                      height="150" [src]="category.path" (click)="uploadImage()">
+                    <img *ngIf="category.image !=''" style="cursor: pointer;border: 1px solid black" width="150"
+                      height="150" [src]="category.image" (click)="uploadImage()">
+                  </div>
+                </div>
+
+                <input id="uploadImage" type="file" (change)="cropImage($event)" accept="image/x-png,image/jpeg"
+                  style="display: none;">
+
+                <div class="form-group">
+                  <label class="control-label">ชื้อหมวดหมู่สินค้า <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="name" [(ngModel)]="category.name" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="massStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{mass}}
+              </div>
+              <button class="btn btn-primary" type="submit">บันทึก</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal-dialog" *ngIf="addStatus=='crop'">
+      <button type="button" class="close" (click)="addStatus='add'">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">จัดการรูปสินค้า</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30">
+            <div class="row">
+              <div class="col-md-12">
+                <div style="margin: auto;width: 50%;">
+                  <image-cropper style="max-width: 500px;" [imageChangedEvent]="originalImage"
+                    [maintainAspectRatio]="true" [aspectRatio]="1" format="png" (imageCropped)="imageCropped($event)">
+                  </image-cropper>
+                </div>
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="massStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{mass}}
+              </div>
+              <button style="margin-right: 10px;" class="btn btn-default" type="button"
+                (click)="addStatus='add'">กลับ</button>
+              <button class="btn btn-primary" type="button" (click)="cropSave()">บันทึก</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>

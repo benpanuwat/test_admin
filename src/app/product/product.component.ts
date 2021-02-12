@@ -31,10 +31,10 @@ export class ProductComponent implements OnInit {
     description: '',
     detail: '',
     standard_price: '',
-    category_id: 0,
+    category_id: 1,
     price: '',
-    images: [],
-    types: [
+    product_image: [],
+    product_type: [
       {
         name: '',
         price: 0,
@@ -43,10 +43,10 @@ export class ProductComponent implements OnInit {
     ]
   }
 
-  public category: any = {};
+  public category: any = [];
 
-  public addMassStatus: boolean = false;
-  public addMass: string = "";
+  massStatus: boolean = false;
+  mass: string = "";
 
   public addStatus = "add";
 
@@ -82,6 +82,13 @@ export class ProductComponent implements OnInit {
             dataTablesParameters, { headers: this.headers }
           ).subscribe(resp => {
             this.products = resp.data;
+
+            let that = this;
+
+            this.products.forEach(function (value) {
+              value.path = that.service.url + '/' + value.path;
+            });
+
             this.loading = false;
 
             callback({
@@ -93,7 +100,10 @@ export class ProductComponent implements OnInit {
       },
       columns: [
         { data: "id" },
-        { data: "name" }
+        { data: "path" },
+        { data: "name" },
+        { data: "category_name" },
+        { data: "active" }
       ],
     };
   }
@@ -112,10 +122,10 @@ export class ProductComponent implements OnInit {
       description: '',
       detail: '',
       standard_price: '',
-      category_id: 0,
+      category_id: 1,
       price: '',
-      images: [],
-      types: [
+      product_image: [],
+      product_type: [
         {
           name: '',
           price: 0,
@@ -149,17 +159,17 @@ export class ProductComponent implements OnInit {
   cropSave() {
     this.compressImage(this.croppedImage, 800, 800).then(compressed => {
 
-      if (this.product.images.length == 0)
-        this.product.images.push({ image: compressed, main: true });
+      if (this.product.product_image.length == 0)
+        this.product.product_image.push({ id: '', image: compressed, main: true });
       else
-        this.product.images.push({ image: compressed, main: false });
+        this.product.product_image.push({ id: '', image: compressed, main: false });
 
       this.addStatus = "add";
     })
   }
 
   clickMain(image) {
-    this.product.images.forEach(function (value) {
+    this.product.product_image.forEach(function (value) {
       value.main = false;
     });
 
@@ -167,18 +177,24 @@ export class ProductComponent implements OnInit {
   }
 
   clickDeleteImage(image) {
-    const index = this.product.images.indexOf(image);
-    this.product.images.splice(index, 1);
+    const index = this.product.product_image.indexOf(image);
+
+    if (this.product.product_image[index].main == true)
+      if (this.product.product_image.length > 0)
+        this.product.product_image[0].main = true;
+
+    this.product.product_image.splice(index, 1);
   }
 
+
   addType() {
-    this.product.types.push({ name: '', price: 0, stock: 0 });
+    this.product.product_type.push({ id: '', name: '', price: 0, stock: 0 });
   }
 
   clickDeleteType(type) {
-    const index = this.product.types.indexOf(type);
+    const index = this.product.product_type.indexOf(type);
     if (index > 0) {
-      this.product.types.splice(index, 1);
+      this.product.product_type.splice(index, 1);
     }
   }
 
@@ -200,13 +216,10 @@ export class ProductComponent implements OnInit {
   clickAddProduct(f) {
 
     if (f.invalid === true) {
-      this.addMassStatus = true;
-      this.addMass = "กรุณากรอกข้อมูลให้ครับถ้วน";
+      this.showMassageAlert("กรุณากรอกข้อมูลให้ครับถ้วน");
     }
-    else if(this.product.images.length == 0)
-    {
-      this.addMassStatus = true;
-      this.addMass = "กรุณากำหนดรูปภาพสินค้า";
+    else if (this.product.product_image.length == 0) {
+      this.showMassageAlert("กรุณากำหนดรูปภาพสินค้า");
     }
     else {
 
@@ -218,6 +231,58 @@ export class ProductComponent implements OnInit {
       });
     }
   }
+
+  clickShowUpdateProduct(product) {
+    this.loading = true;
+    this.http.post<any>(this.service.url + '/api/get_product_detail_back', product, { headers: this.headers }).subscribe(res => {
+      if (res.code == 200) {
+        this.product = res.data.product;
+        this.category = res.data.category;
+
+        let that = this;
+        this.product.product_image.forEach(function (value) {
+          value.path = that.service.url + '/' + value.path;
+          value.image = '';
+        });
+
+        this.loading = false;
+        $('#update_product').modal('show');
+      }
+    });
+  }
+
+  clickUpdateProduct(f) {
+    if (f.invalid === true) {
+      this.showMassageAlert("กรุณากรอกข้อมูลให้ครับถ้วน");
+    }
+    else if (this.product.product_image.length == 0) {
+      this.showMassageAlert("กรุณากำหนดรูปภาพสินค้า");
+    }
+    else {
+      this.http.post<any>(this.service.url + '/api/update_product_back', this.product, { headers: this.headers }).subscribe(data => {
+        if (data.status) {
+          this.rerender();
+          $('#update_product').modal('hide');
+        }
+      });
+    }
+  }
+
+  clickProductActive(product) {
+      this.http.post<any>(this.service.url + '/api/update_product_active_back', product, { headers: this.headers }).subscribe(data => {
+        if (data.code == 200) {
+          this.rerender();
+        }
+      });
+  }
+
+  clickProductNoActive(product) {
+    this.http.post<any>(this.service.url + '/api/update_product_noactive_back', product, { headers: this.headers }).subscribe(data => {
+      if (data.code == 200) {
+        this.rerender();
+      }
+    });
+}
 
   compressImage(src, newX, newY) {
     return new Promise((res, rej) => {
@@ -234,5 +299,16 @@ export class ProductComponent implements OnInit {
       }
       img.onerror = error => rej(error);
     })
+  }
+
+
+  showMassageAlert(mass) {
+    this.massStatus = true;
+    this.mass = mass;
+
+    setTimeout(function () {
+      this.massStatus = false;
+      this.mass = "";
+    }, 3000);
   }
 }

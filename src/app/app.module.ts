@@ -27,16 +27,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { UserComponent } from './user/user.component';
 import { MemberComponent } from './member/member.component';
+import { CategoryComponent } from './category/category.component';
 import { ProductComponent } from './product/product.component';
-// import { PaymentComponent } from './payment/payment.component';
-// import { BlogComponent } from './blog/blog.component';
-// import { SettingComponent } from './setting/setting.component';
-// import { OrderComponent } from './order/order.component';
-// import { OrderAgentComponent } from './order-agent/order-agent.component';
-// import { PrintComponent } from './print/print.component';
-// import { PrintLabelComponent } from './print-label/print-label.component';
-// import { PrintLabelThaipostComponent } from './print-label-thaipost/print-label-thaipost.component';
-// import { WithdrawComponent } from './withdraw/withdraw.component';
+import { PaymentComponent } from './payment/payment.component';
+import { OrderComponent } from './order/order.component';
+import { PackingComponent } from './packing/packing.component';
+import { DeliveryComponent } from './delivery/delivery.component';
+import { CancelComponent } from './cancel/cancel.component';
+import { SettingComponent } from './setting/setting.component';
 
 enableProdMode();
 
@@ -45,17 +43,14 @@ const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
   { path: 'member', component: MemberComponent, canActivate: [AuthGuard] },
+  { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] },
   { path: 'product', component: ProductComponent, canActivate: [AuthGuard] },
-  // { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
-  // { path: 'order', component: OrderComponent, canActivate: [AuthGuard] },
-  // { path: 'orderagent', component: OrderAgentComponent, canActivate: [AuthGuard] },
-  // { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
-  // { path: 'withdraw', component: WithdrawComponent, canActivate: [AuthGuard] },
-  // { path: 'print', component: PrintComponent, canActivate: [AuthGuard] },
-  // { path: 'print_label', component: PrintLabelComponent, canActivate: [AuthGuard] },
-  // { path: 'print_label_thaipost', component: PrintLabelThaipostComponent, canActivate: [AuthGuard] },
-  // { path: 'blog', component: BlogComponent, canActivate: [AuthGuard] },
-  // { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
+  { path: 'order', component: OrderComponent, canActivate: [AuthGuard] },
+  { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
+  { path: 'packing', component: PackingComponent, canActivate: [AuthGuard] },
+  { path: 'delivery', component: DeliveryComponent, canActivate: [AuthGuard] },
+  { path: 'cancel', component: CancelComponent, canActivate: [AuthGuard] },
+  { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'login' }
 ];
 
@@ -68,16 +63,14 @@ const routes: Routes = [
     MemberComponent,
     UserComponent,
     NumberDirective,
+    CategoryComponent,
     ProductComponent,
-    // PaymentComponent,
-    // BlogComponent,
-    // SettingComponent,
-    // OrderComponent,
-    // PrintComponent,
-    // OrderAgentComponent,
-    // PrintLabelComponent,
-    // PrintLabelThaipostComponent,
-    // WithdrawComponent,
+    PaymentComponent,
+    OrderComponent,
+    PackingComponent,
+    DeliveryComponent,
+    CancelComponent,
+    SettingComponent,
   ],
   imports: [
     HttpClientModule,

@@ -6,9 +6,8 @@ import { Injectable } from '@angular/core';
 
 export class AppService {
 
-  public server = "https://dropy.co.th/api/server";
-  public url = "https://truelinemed.logo-design360.com/api/public";
-  //public url = "http://127.0.0.1:8000";
+  //public url = "https://truelinemed.logo-design360.com/api/public";
+  public url = "http://127.0.0.1:8000";
 
   public dbLanguage = {
     processing: "ประมวลผล...",

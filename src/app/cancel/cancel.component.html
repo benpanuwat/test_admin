@@ -2,7 +2,7 @@
   <div class="content container-fluid">
     <div class="row">
       <div class="col-xs-4">
-        <h4 class="page-title">รายการสั่งซื้อ</h4>
+        <h4 class="page-title">รายการส่งสินค้า</h4>
       </div>
     </div>
     <div class="row">
@@ -39,11 +39,9 @@
                     <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
                       aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <ul class="dropdown-menu pull-right">
-                      <li><a href="javascript:" (click)="clickShowDetailOrder(order)"><i
-                            class="fa fa-list-alt m-r-5"></i>
-                          รายละเอียด</a></li>
-                      <li><a href="javascript:" (click)="clickCancelOrder(order)"><i class="fa fa-times m-r-5"></i>
-                          ยกเลิก</a></li>
+                      <li><a href="javascript:" (click)="clickShowCheckCancel(order)"><i
+                            class="fa fa-search m-r-5"></i>
+                          ตรวจสอบ</a></li>
                     </ul>
                   </div>
                 </td>
@@ -58,12 +56,13 @@
     </div>
   </div>
 
-  <div id="order_detail" class="modal custom-modal fade" role="dialog">
+
+  <div id="check_cancel" class="modal custom-modal fade" role="dialog">
     <div class="modal-dialog">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
       <div class="modal-content modal-lg">
         <div class="modal-header">
-          <h4 class="modal-title">รายละเอียดคำสั่งงาน หมายเลข {{order.code}}</h4>
+          <h4 class="modal-title">ตรวจสอบการส่งสินค้า หมายเลข {{order.code}}</h4>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -100,7 +99,8 @@
                   </tr>
                   <tr>
                     <td>ที่อยู่</td>
-                    <td>{{ order.address.others }} {{ order.address.district }} {{ order.address.amphoe }} {{ order.address.province }}</td>
+                    <td>{{ order.address.others }} {{ order.address.district }} {{ order.address.amphoe }} {{
+                      order.address.province }}</td>
                   </tr>
                   <tr>
                     <td>รหัสไปรษณีย์</td>
@@ -135,13 +135,23 @@
                     <td style="text-align: right;">{{ pro.count }}</td>
                     <td style="text-align: right;"><u>{{ pro.price*pro.count| currency:' '}}</u></td>
                   </tr>
-                  <tr >
+                  <tr>
                     <td colspan="5" style="text-align: center;"><strong>ราคารวม</strong></td>
                     <td style="text-align: right;"><u>{{ order.price_total| currency:' '}}</u></td>
                   </tr>
                 </tbody>
               </table>
             </div>
+
+            <div class="col-md-12">
+            <div class="m-t-20 text-center">
+              <div *ngIf="massStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{mass}}
+              </div>
+              <button class="btn btn-success" type="button" style="margin: 5px;" (click)="clickCancel(order)">ยกเลิกการสั่งซื้อ</button>
+            </div>
+            </div>
+
           </div>
         </div>
       </div>
