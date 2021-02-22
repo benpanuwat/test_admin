@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 
 export class AppService {
 
-  //public url = "https://truelinemed.logo-design360.com/api/public";
+  //public url = "https://www.truelinemed.com/api/public";
   public url = "http://127.0.0.1:8000";
 
   public dbLanguage = {
