@@ -14,7 +14,14 @@ export class SettingComponent implements OnInit {
   public headers: HttpHeaders;
 
   public setting: any = {
-    banner : []
+    banner: [],
+    partner: [],
+    banner_category:[
+      {
+        image:'',
+        path:''
+      }
+    ]
   };
 
   massStatus: boolean = false;
@@ -31,12 +38,22 @@ export class SettingComponent implements OnInit {
 
   loadSetting() {
     this.loading = true;
-    this.http.post<any>(this.service.url + '/api/get_banner_back', {}, { headers: this.headers }).subscribe(res => {
+    this.http.post<any>(this.service.url + '/api/get_setting_banner_back', {}, { headers: this.headers }).subscribe(res => {
       if (res.code == 200) {
-        this.setting.banner = res.data;
+        this.setting = res.data;
 
         let that = this;
         this.setting.banner.forEach(function (value) {
+          value.path = that.service.url + '/' + value.path;
+          value.image = "";
+        });
+
+        this.setting.partner.forEach(function (value) {
+          value.path = that.service.url + '/' + value.path;
+          value.image = "";
+        });
+
+        this.setting.banner_category.forEach(function (value) {
           value.path = that.service.url + '/' + value.path;
           value.image = "";
         });
@@ -67,13 +84,49 @@ export class SettingComponent implements OnInit {
     this.setting.banner.splice(index, 1);
   }
 
-  clickSave()
-  {
-    this.http.post<any>(this.service.url + '/api/update_banner_back', this.setting, { headers: this.headers }).subscribe(data => {
+
+  uploadImagePartner() {
+    $("#uploadImagePartner").click();
+  }
+
+  loadImagePartner(event) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.setting.partner.push({ id: '', path: '', image: event.target.result });
+      }
+    }
+  };
+
+  clickDeletePartner(par) {
+    const index = this.setting.partner.indexOf(par);
+    this.setting.partner.splice(index, 1);
+  }
+
+  clickSave() {
+    this.http.post<any>(this.service.url + '/api/update_setting_banner_back', this.setting, { headers: this.headers }).subscribe(data => {
       if (data.code == 200) {
       }
     });
   }
+
+  uploadImageBannerCat() {
+    $("#uploadImageBannerCat").click();
+  }
+
+  loadImageBannerCategory(event) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.setting.banner_category = [];
+        this.setting.banner_category.push({ id: '', path: '', image: event.target.result });
+      }
+    }
+  };
 
   showMassageAlert(mass) {
     this.massStatus = true;

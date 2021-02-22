@@ -12,7 +12,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FullCalendarModule } from 'ng-fullcalendar';
 import { MorrisJsModule } from 'angular-morris-js';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, } from '@angular/platform-browser/animations';
 import { enableProdMode } from '@angular/core';
 import { NumberDirective } from './numbers-only.directive';
 import { NgxBarcodeModule } from 'ngx-barcode';
@@ -34,6 +34,8 @@ import { OrderComponent } from './order/order.component';
 import { PackingComponent } from './packing/packing.component';
 import { DeliveryComponent } from './delivery/delivery.component';
 import { CancelComponent } from './cancel/cancel.component';
+import { BlogComponent } from './blog/blog.component';
+import { NewComponent } from './new/new.component';
 import { SettingComponent } from './setting/setting.component';
 
 enableProdMode();
@@ -50,6 +52,8 @@ const routes: Routes = [
   { path: 'packing', component: PackingComponent, canActivate: [AuthGuard] },
   { path: 'delivery', component: DeliveryComponent, canActivate: [AuthGuard] },
   { path: 'cancel', component: CancelComponent, canActivate: [AuthGuard] },
+  { path: 'blog', component: BlogComponent, canActivate: [AuthGuard] },
+  { path: 'new', component: NewComponent, canActivate: [AuthGuard] },
   { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'login' }
 ];
@@ -70,6 +74,8 @@ const routes: Routes = [
     PackingComponent,
     DeliveryComponent,
     CancelComponent,
+    BlogComponent,
+    NewComponent,
     SettingComponent,
   ],
   imports: [

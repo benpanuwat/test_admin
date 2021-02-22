@@ -7,12 +7,12 @@
       </div>
       <div class="col-xs-8 text-right m-b-30"></div>
     </div>
-    
+
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-8">
         <div class="form-group">
-          <label>ตั้งค่าแบนเนอร์หน้าหลัก (1200 x 500)</label>
+          <label>ตั้งค่าแบนเนอร์หน้าหลัก (1920 x 500)</label>
           <table class="table table-striped custom-table">
             <thead>
               <tr>
@@ -24,8 +24,8 @@
             <tbody>
               <tr *ngFor="let ban of setting.banner;index as i">
                 <td style="width: 80px">{{i+1}}</td>
-                <td *ngIf="ban.image == ''"><img style="height: 100px;margin: 5px;" [src]="ban.path" /></td>
-                <td *ngIf="ban.image != ''"><img style="height: 100px;margin: 5px;" [src]="ban.image" /></td>
+                <td *ngIf="ban.image == ''"><img width="100%" style="margin: 5px;" [src]="ban.path" /></td>
+                <td *ngIf="ban.image != ''"><img width="100%" style="margin: 5px;" [src]="ban.image" /></td>
                 <td style="width: 30px"><button class="btn btn-danger" type="button"
                     (click)="clickDeleteBanner(ban)">ลบ</button></td>
               </tr>
@@ -39,7 +39,58 @@
           <input id="uploadImage" type="file" (change)="loadImage($event)" accept="image/x-png,image/jpeg"
             style="display: none;">
         </div>
+
+        <div class="form-group" style="margin-top: 50px;">
+          <label>ตั้งค่าแบนเนอร์หน้าหมวดหมู่สินค้า (1920 x 300)</label>
+          <div *ngFor="let ban_cat of setting.banner_category;index as i">
+            <img *ngIf="ban_cat.image == ''" width="100%" [src]="ban_cat.path">
+            <img *ngIf="ban_cat.image != ''" width="100%" [src]="ban_cat.image">
+          </div>
+          <div *ngIf="setting.banner_category.length  == 0">
+            <img  width="100%" src="assets/img/bg_banner.png">
+          </div>
+
+          <div class="m-t-20 text-center">
+            <button class="btn btn-success" type="button"
+              (click)="uploadImageBannerCat()">อัพโหลดรูปแบนเนอร์หมวดหมู่สินค้า</button>
+          </div>
+
+          <input id="uploadImageBannerCat" type="file" (change)="loadImageBannerCategory($event)"
+            accept="image/x-png,image/jpeg" style="display: none;">
+        </div>
       </div>
+
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>ตั้งค่าโลโก้พาร์ทเนอร์ (140 x 60)</label>
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 80px">รูปที่</th>
+                <th>รูปโลโก้พาร์ทเนอร์</th>
+                <th style="width: 30px">ลบ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pat of setting.partner;index as i">
+                <td style="width: 80px">{{i+1}}</td>
+                <td *ngIf="pat.image == ''"><img style="height: 70px;margin: 5px;" [src]="pat.path" /></td>
+                <td *ngIf="pat.image != ''"><img style="height: 70px;margin: 5px;" [src]="pat.image" /></td>
+                <td style="width: 30px"><button class="btn btn-danger" type="button"
+                    (click)="clickDeletePartner(pat)">ลบ</button></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="m-t-20 text-center" *ngIf="setting.banner.length < 5">
+            <button class="btn btn-success" type="button" (click)="uploadImagePartner()">อัพโหลดโลโก้พาร์ทเนอร์</button>
+          </div>
+
+          <input id="uploadImagePartner" type="file" (change)="loadImagePartner($event)" accept="image/x-png,image/jpeg"
+            style="display: none;">
+        </div>
+      </div>
+
       <div class="col-md-12">
         <div class="m-t-20 text-center">
           <div *ngIf="massStatus" class="alert alert-info m-t-10">
@@ -54,4 +105,3 @@
 </div>
 
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
-

@@ -1,0 +1,211 @@
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-xs-4">
+        <h4 class="page-title">ข่าวสาร</h4>
+      </div>
+      <div class="col-xs-8 text-right m-b-30">
+        <a href="javascript:" class="btn btn-primary rounded" (click)="clickShowAddNews()"><i class="fa fa-plus"></i>
+          เพิ่มข่าวสาร</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive bottom40">
+          <table datatable [dtOptions]="dtOptions" class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 50px">รหัส</th>
+                <th>หัวข้อ</th>
+                <th style="width: 120px">วันที่สร้าง</th>
+                <th style="width: 30px">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let n of news">
+                <td>{{ n.id }}</td>
+                <td>{{ n.title }}</td>
+                <td>{{ n.created_at }}</td>
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a href="javascript:" (click)="clickShowUpdateNews(n)"><i class="fa fa-pencil m-r-5"></i>
+                          แก้ไข</a></li>
+                      <li><a href="javascript:" (click)="clickDeleteNews(n)"><i class="fa fa-trash m-r-5"></i>
+                          ลบ</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="news?.length == 0">
+                <td colspan="4" class="no-data-available">ไม่พบข้อมูล!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="add_news" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">เพิ่มข่าวสาร</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30" #addForm="ngForm" (ngSubmit)="clickAddNews(addForm)" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+
+                <div class="form-group">
+                  <label class="control-label">หัวข้อ <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="name" [(ngModel)]="n.title" required>
+                </div>
+
+                <!-- <div class="form-group required-field">
+                  <label for="acc-name">หมวดหมู่สินค้า</label>
+                  <select class="select form-control" [(ngModel)]="product.category_id" name="category_id" required>
+                    <option *ngFor="let cat of category" value="{{cat.id}}">{{cat.name}}
+                    </option>
+                  </select>
+                </div> -->
+
+              </div>
+              <div class="col-md-6">
+
+                <div class="form-group">
+                  <label>รูปประกอบข่าวสาร (1280 x 500)</label>
+                  <table class="table table-striped custom-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 80px">รูปที่</th>
+                        <th>รูปประกอบข่าวสาร</th>
+                        <th style="width: 30px">ลบ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let image of n.news_images;index as i">
+                        <td style="width: 80px">{{i+1}}</td>
+                        <td><img width="100%" style="margin: 5px;" [src]="image.image" /></td>
+                        <td style="width: 30px"><button class="btn btn-danger" type="button"
+                            (click)="clickDeleteImage(image)">ลบ</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="m-t-20 text-center" *ngIf="n.news_images.length < 3">
+                    <button class="btn btn-success" type="button"
+                      (click)="uploadImage()">อัพโหลดรูปแบนเนอร์บล็อก</button>
+                  </div>
+
+                  <input id="uploadImage" type="file" (change)="loadImage($event)" accept="image/x-png,image/jpeg"
+                    style="display: none;">
+                </div>
+
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>รายระเอียดบล็อก <span class="text-danger">*</span></label>
+                  <textarea class="form-control" name="detail" [(ngModel)]="n.detail" rows="10" required></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="massStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{mass}}
+              </div>
+              <button class="btn btn-primary" type="submit">เพิ่มข่าวสาร</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="update_news" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">แก้ไขข่าวสาร</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30" #updateForm="ngForm" (ngSubmit)="clickUpdateNews(updateForm)" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+
+                <div class="form-group">
+                  <label>รูปประกอบข่าวสาร (1280 x 500)</label>
+                  <table class="table table-striped custom-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 80px">รูปที่</th>
+                        <th>รูปประกอบข่าวสาร</th>
+                        <th style="width: 30px">ลบ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let image of n.news_images;index as i">
+                        <td style="width: 80px">{{i+1}}</td>
+                        <td *ngIf="image.image == ''"><img width="100%" style="margin: 5px;" [src]="image.path" /></td>
+                        <td *ngIf="image.image != ''"><img width="100%" style="margin: 5px;" [src]="image.image" /></td>
+                        <td style="width: 30px"><button class="btn btn-danger" type="button"
+                            (click)="clickDeleteImage(image)">ลบ</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="m-t-20 text-center" *ngIf="n.news_images.length < 3">
+                    <button class="btn btn-success" type="button"
+                      (click)="uploadImage()">อัพโหลดรูปแบนเนอร์บล็อก</button>
+                  </div>
+
+                  <input id="uploadImage" type="file" (change)="loadImage($event)" accept="image/x-png,image/jpeg"
+                    style="display: none;">
+                </div>
+
+                <!-- <div class="form-group required-field">
+                  <label for="acc-name">หมวดหมู่สินค้า</label>
+                  <select class="select form-control" [(ngModel)]="product.category_id" name="category_id" required>
+                    <option *ngFor="let cat of category" value="{{cat.id}}">{{cat.name}}
+                    </option>
+                  </select>
+                </div> -->
+
+              </div>
+              <div class="col-md-6">
+
+                <div class="form-group">
+                  <label class="control-label">หัวข้อ <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="name" [(ngModel)]="n.title" required>
+                </div>
+
+
+                <div class="form-group">
+                  <label>รายระเอียดบล็อก <span class="text-danger">*</span></label>
+                  <textarea class="form-control" name="detail" [(ngModel)]="n.detail" rows="10" required></textarea>
+                </div>
+
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="massStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{mass}}
+              </div>
+              <button class="btn btn-primary" type="submit">แก้ไขข่าวสาร</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
