@@ -34,6 +34,7 @@ import { OrderComponent } from './order/order.component';
 import { PackingComponent } from './packing/packing.component';
 import { DeliveryComponent } from './delivery/delivery.component';
 import { CancelComponent } from './cancel/cancel.component';
+import { StockComponent } from './stock/stock.component';
 import { BlogComponent } from './blog/blog.component';
 import { NewComponent } from './new/new.component';
 import { SettingComponent } from './setting/setting.component';
@@ -52,6 +53,7 @@ const routes: Routes = [
   { path: 'packing', component: PackingComponent, canActivate: [AuthGuard] },
   { path: 'delivery', component: DeliveryComponent, canActivate: [AuthGuard] },
   { path: 'cancel', component: CancelComponent, canActivate: [AuthGuard] },
+  { path: 'stock', component: StockComponent, canActivate: [AuthGuard] },
   { path: 'blog', component: BlogComponent, canActivate: [AuthGuard] },
   { path: 'new', component: NewComponent, canActivate: [AuthGuard] },
   { path: 'setting', component: SettingComponent, canActivate: [AuthGuard] },
@@ -74,6 +76,7 @@ const routes: Routes = [
     PackingComponent,
     DeliveryComponent,
     CancelComponent,
+    StockComponent,
     BlogComponent,
     NewComponent,
     SettingComponent,

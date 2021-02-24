@@ -16,16 +16,23 @@
             <thead>
               <tr>
                 <th style="width: 50px">รหัส</th>
+                <th style="width: 100px">รูปภาพ</th>
                 <th>หัวข้อ</th>
                 <th style="width: 120px">วันที่สร้าง</th>
+                <th style="width: 50px">แสดง</th>
                 <th style="width: 30px">จัดการ</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let n of news">
                 <td>{{ n.id }}</td>
+                <td><img width="80" [src]="n.path"></td>
                 <td>{{ n.title }}</td>
                 <td>{{ n.created_at }}</td>
+                <td>
+                  <button *ngIf="n.show == 1" class="btn btn-success" (click)="clickProductNoActive(n)">เปิด</button>
+                  <button *ngIf="n.show == 0" class="btn btn-danger"  (click)="clickProductActive(n)">ปิด</button>
+                </td>
                 <td class="text-right">
                   <div class="dropdown">
                     <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
@@ -63,6 +70,24 @@
               <div class="col-md-6">
 
                 <div class="form-group">
+                  <label>รูปภาพตัวอย่างข่าวสาร (265 x 198)</label>
+                  <div>
+                    <img *ngIf="n.image != ''" width="50%" [src]="n.image">
+                  </div>
+                  <div *ngIf="n.image == ''">
+                    <img  width="50%" src="assets/img/bg_new_main.png">
+                  </div>
+        
+                  <div class="m-t-20">
+                    <button class="btn btn-success" type="button"
+                      (click)="uploadImageNewMain()">อัพโหลดรูปภาพตัวอย่างข่าวสาร</button>
+                  </div>
+        
+                  <input id="uploadImageNewMain" type="file" (change)="loadImageNewMain($event)"
+                    accept="image/x-png,image/jpeg" style="display: none;">
+                </div>
+
+                <div class="form-group">
                   <label class="control-label">หัวข้อ <span class="text-danger">*</span></label>
                   <input class="form-control" type="text" name="name" [(ngModel)]="n.title" required>
                 </div>
@@ -79,12 +104,12 @@
               <div class="col-md-6">
 
                 <div class="form-group">
-                  <label>รูปประกอบข่าวสาร (1280 x 500)</label>
+                  <label>รูปแบนเนอร์ข่าวสาร (1280 x 500)</label>
                   <table class="table table-striped custom-table">
                     <thead>
                       <tr>
                         <th style="width: 80px">รูปที่</th>
-                        <th>รูปประกอบข่าวสาร</th>
+                        <th>รูปแบนเนอร์ข่าวสาร</th>
                         <th style="width: 30px">ลบ</th>
                       </tr>
                     </thead>
@@ -140,12 +165,47 @@
               <div class="col-md-6">
 
                 <div class="form-group">
-                  <label>รูปประกอบข่าวสาร (1280 x 500)</label>
+                  <label>รูปภาพตัวอย่างข่าวสาร (265 x 198)</label>
+                  <div>
+                    <img *ngIf="n.image == '' && n.path != ''" width="50%" [src]="n.path">
+                    <img *ngIf="n.image != ''" width="50%" [src]="n.image">
+                  </div>
+                  <div *ngIf="n.image == '' && n.path == ''">
+                    <img  width="50%" src="assets/img/bg_new_main.png">
+                  </div>
+        
+                  <div class="m-t-20">
+                    <button class="btn btn-success" type="button"
+                      (click)="uploadImageNewMain()">อัพโหลดรูปภาพตัวอย่างข่าวสาร</button>
+                  </div>
+        
+                  <input id="uploadImageNewMain" type="file" (change)="loadImageNewMain($event)"
+                    accept="image/x-png,image/jpeg" style="display: none;">
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label">หัวข้อ <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="name" [(ngModel)]="n.title" required>
+                </div>
+
+                <!-- <div class="form-group required-field">
+                  <label for="acc-name">หมวดหมู่สินค้า</label>
+                  <select class="select form-control" [(ngModel)]="product.category_id" name="category_id" required>
+                    <option *ngFor="let cat of category" value="{{cat.id}}">{{cat.name}}
+                    </option>
+                  </select>
+                </div> -->
+
+              </div>
+              <div class="col-md-6">
+
+                <div class="form-group">
+                  <label>รูปแบนเนอร์ข่าวสาร (1280 x 500)</label>
                   <table class="table table-striped custom-table">
                     <thead>
                       <tr>
                         <th style="width: 80px">รูปที่</th>
-                        <th>รูปประกอบข่าวสาร</th>
+                        <th>รูปแบนเนอร์ข่าวสาร</th>
                         <th style="width: 30px">ลบ</th>
                       </tr>
                     </thead>
@@ -169,28 +229,12 @@
                     style="display: none;">
                 </div>
 
-                <!-- <div class="form-group required-field">
-                  <label for="acc-name">หมวดหมู่สินค้า</label>
-                  <select class="select form-control" [(ngModel)]="product.category_id" name="category_id" required>
-                    <option *ngFor="let cat of category" value="{{cat.id}}">{{cat.name}}
-                    </option>
-                  </select>
-                </div> -->
-
               </div>
-              <div class="col-md-6">
-
-                <div class="form-group">
-                  <label class="control-label">หัวข้อ <span class="text-danger">*</span></label>
-                  <input class="form-control" type="text" name="name" [(ngModel)]="n.title" required>
-                </div>
-
-
+              <div class="col-md-12">
                 <div class="form-group">
                   <label>รายระเอียดบล็อก <span class="text-danger">*</span></label>
                   <textarea class="form-control" name="detail" [(ngModel)]="n.detail" rows="10" required></textarea>
                 </div>
-
               </div>
             </div>
             <div class="m-t-20 text-center">

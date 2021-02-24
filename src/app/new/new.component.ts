@@ -67,6 +67,12 @@ export class NewComponent implements OnInit {
             dataTablesParameters, { headers: this.headers }
           ).subscribe(resp => {
             this.news = resp.data;
+
+            let that = this;
+            this.news.forEach(function (value) {
+              value.path = that.service.url + '/' + value.path;
+            });
+
             this.loading = false;
 
             callback({
@@ -78,9 +84,10 @@ export class NewComponent implements OnInit {
       },
       columns: [
         { data: "id" },
+        { data: "path" },
         { data: "title" },
         { data: "created_at" },
-        { data: "active" }
+        { data: "show" }
       ],
     };
   }
@@ -91,20 +98,31 @@ export class NewComponent implements OnInit {
     });
   }
 
+  uploadImageNewMain() {
+    $("#uploadImageNewMain").click();
+  }
+
+  loadImageNewMain(event) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.n.image = event.target.result;
+      }
+    }
+  };
+
 
   clickShowAddNews() {
     this.n = {
       id: '',
       title: '',
       detail: '',
+      path: '',
+      image: '',
       news_images: []
     }
-
-    // this.http.post<any>(this.service.url + '/api/get_category_back', {}, { headers: this.headers }).subscribe(res => {
-    //   if (res.status) {
-    //     this.category = res.data;
-    //   }
-    // });
 
     $('#add_news').modal('show');
   }
@@ -134,8 +152,8 @@ export class NewComponent implements OnInit {
     if (f.invalid === true) {
       this.showMassageAlert("กรุณากรอกข้อมูลให้ครับถ้วน");
     }
-    else if (this.n.news_images.length == 0) {
-      this.showMassageAlert("กรุณากำหนดรูปภาพบล็อก");
+    else if (this.n.news_images.length == 0 || this.n.image == '') {
+      this.showMassageAlert("กรุณากำหนดรูปภาพข่าวสาร");
     }
     else {
       this.http.post<any>(this.service.url + '/api/create_news_back', this.n, { headers: this.headers }).subscribe(data => {
@@ -149,12 +167,14 @@ export class NewComponent implements OnInit {
 
   clickShowUpdateNews(n) {
     this.loading = true;
-    this.http.post<any>(this.service.url + '/api/get_blog_detail_back', n, { headers: this.headers }).subscribe(res => {
+    this.http.post<any>(this.service.url + '/api/get_news_detail_back', n, { headers: this.headers }).subscribe(res => {
       if (res.code == 200) {
-        this.n = res.data.blog;
-        //this.category = res.data.category;
+        this.n = res.data.news;
 
         let that = this;
+        this.n.path = that.service.url + '/' + this.n.path;
+        this.n.image = "";
+
         this.n.news_images.forEach(function (value) {
           value.path = that.service.url + '/' + value.path;
           value.image = '';
@@ -171,10 +191,10 @@ export class NewComponent implements OnInit {
       this.showMassageAlert("กรุณากรอกข้อมูลให้ครับถ้วน");
     }
     else if (this.n.news_images.length == 0) {
-      this.showMassageAlert("กรุณากำหนดรูปภาพบล็อก");
+      this.showMassageAlert("กรุณากำหนดรูปภาพข่าวสาร");
     }
     else {
-      this.http.post<any>(this.service.url + '/api/update_blog_back', this.n, { headers: this.headers }).subscribe(data => {
+      this.http.post<any>(this.service.url + '/api/update_news_back', this.n, { headers: this.headers }).subscribe(data => {
         if (data.code == 200) {
           this.rerender();
           $('#update_news').modal('hide');
@@ -184,13 +204,29 @@ export class NewComponent implements OnInit {
   }
 
   clickDeleteNews(n) {
-    if (confirm("คุณต้องการลบบล็อกนี้หรือไม่")) {
-      this.http.post<any>(this.service.url + '/api/delete_blog_back', n, { headers: this.headers }).subscribe(data => {
+    if (confirm("คุณต้องการลบข่าวสารนี้หรือไม่")) {
+      this.http.post<any>(this.service.url + '/api/delete_news_back', n, { headers: this.headers }).subscribe(data => {
         if (data.code == 200) {
           this.rerender();
         }
       });
     }
+  }
+
+  clickProductActive(product) {
+    this.http.post<any>(this.service.url + '/api/update_news_show_back', product, { headers: this.headers }).subscribe(data => {
+      if (data.code == 200) {
+        this.rerender();
+      }
+    });
+  }
+
+  clickProductNoActive(product) {
+    this.http.post<any>(this.service.url + '/api/update_news_noshow_back', product, { headers: this.headers }).subscribe(data => {
+      if (data.code == 200) {
+        this.rerender();
+      }
+    });
   }
 
   showMassageAlert(mass) {

@@ -33,6 +33,9 @@
         <li [ngClass]="url === 'cancel'? 'active' : 'null'">
           <a routerLink="cancel"><i class="la la-window-close"></i> <span> ยกเลิกสั่งซื้อ </span></a>
         </li>
+        <li [ngClass]="url === 'stock'? 'active' : 'null'">
+          <a routerLink="stock"><i class="la la-dolly"></i> <span> คลังสินค้า </span></a>
+        </li>
         <li [ngClass]="url === 'blog'? 'active' : 'null'">
           <a routerLink="blog"><i class="la la-blog"></i> <span> บล็อก </span></a>
         </li>

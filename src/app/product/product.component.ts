@@ -11,7 +11,7 @@ import { Product } from '../model/product';
 declare const $: any;
 
 @Component({
-  selector: 'app-member',
+  selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })

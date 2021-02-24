@@ -1,0 +1,136 @@
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-xs-4">
+        <h4 class="page-title">คลังสินค้า</h4>
+      </div>
+      <!-- <div class="col-xs-8 text-right m-b-30">
+        <a href="javascript:" class="btn btn-primary rounded" (click)="clickShowAddProduct()"><i class="fa fa-plus"></i>
+          เพิ่มสินค้า</a>
+      </div> -->
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive bottom40">
+          <table datatable [dtOptions]="dtOptions" class="table table-striped custom-table">
+            <thead>
+              <tr>
+                <th style="width: 50px">รหัส</th>
+                <th style="width: 100px">รูปภาพ</th>
+                <th>ชื่อ</th>
+                <th style="width: 30%">จำนวนคงเหลือ</th>
+                <!-- <th style="width: 55px">การขาย</th> -->
+                <th style="width: 50px">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let stock of stocks">
+                <td>{{ stock.id }}</td>
+                <td><img width="80" [src]="stock.path"></td>
+                <td>{{ stock.name }}</td>
+                <td>
+                  <table>
+                    <tr>
+                      <th>รูปแบบ</th>
+                      <th>คงเหลือ</th>
+                    </tr>
+                    <tr *ngFor="let type of stock.product_type">
+                      <td style="width: 70%">{{type.name}}</td>
+                      <td>{{type.stock}}</td>
+                    </tr>
+                  </table>
+                </td>
+                <td class="text-right">
+                  <div class="dropdown">
+                    <a href="javascript:" class="action-icon dropdown-toggle" data-toggle="dropdown"
+                      aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu pull-right">
+                      <li><a href="javascript:" (click)="clickShowAddProduct(stock)"><i
+                            class="la la-dolly m-r-5"></i>
+                          รับสินค้า</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="stocks?.length == 0">
+                <td colspan="5" class="no-data-available">ไม่พบข้อมูล!</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="add_stock" class="modal custom-modal fade" role="dialog">
+    <div class="modal-dialog">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h4 class="modal-title">รับสินค้า</h4>
+        </div>
+        <div class="modal-body">
+          <form class="m-b-30" #addForm="ngForm" (ngSubmit)="clickAddStock(addForm)" novalidate>
+            <div class="row">
+              <div class="col-md-6">
+                <!-- <div class="form-group">
+                  <label class="control-label">ชื้อสินค้า <span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" name="name" [(ngModel)]="product.name" required>
+                </div> -->
+                
+                <!-- <div class="form-group">
+                  <label>รูปแบบสินค้า</label>
+                  <table class="table table-striped custom-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 40%">รูปแบบ</th>
+                        <th>ราคา</th>
+                        <th>คงเหลือ</th>
+                        <th style="width: 30px">ลบ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let type of product.product_type;index as i">
+                        <td><input class="form-control" type="text" name="type_name_{{i}}" [(ngModel)]="type.name"
+                            required></td>
+
+                        <td><input class="form-control" type="text" name="type_price_{{i}}" [(ngModel)]="type.price"
+                            required numbersOnly></td>
+
+                        <td><input class="form-control" type="text" name="type_stock_{{i}}" [(ngModel)]="type.stock"
+                            required numbersOnly></td>
+
+                        <td *ngIf="i == 0" style="width: 30px"><button class="btn btn-default" type="button"
+                            disabled>ลบ</button></td>
+                        <td *ngIf="i != 0" style="width: 30px"><button class="btn btn-danger" type="button"
+                            (click)="clickDeleteType(type)">ลบ</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="m-t-20 text-center" *ngIf="product.product_type.length < 5">
+                    <button class="btn btn-success" type="button" (click)="addType()">เพิ่มราคา</button>
+                  </div>
+
+                </div> -->
+
+              </div>
+              <div class="col-md-6">
+              </div>
+            </div>
+            <div class="m-t-20 text-center">
+              <div *ngIf="massStatus" class="alert alert-info m-t-10">
+                <strong>แจ้งเตือน!</strong> {{mass}}
+              </div>
+              <button class="btn btn-primary" type="submit">บันทึก</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
