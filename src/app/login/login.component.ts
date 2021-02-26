@@ -36,7 +36,7 @@ export class LoginPageComponent implements OnInit {
           localStorage.setItem("id_admin", res.data.id);
           localStorage.setItem("username_admin", res.data.username);
           localStorage.setItem("token_admin", res.token);
-          window.location.href = "user";
+          window.location.href = "dashboard";
         }
         else {
           this.loginValidation = true;

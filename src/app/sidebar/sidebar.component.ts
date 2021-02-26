@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener, Renderer2 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router'
 import { ISlimScrollOptions } from 'ngx-slimscroll';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AppService } from 'src/app/app.service';
 
 declare const $: any;
 
@@ -11,6 +13,8 @@ declare const $: any;
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+
+  public headers: HttpHeaders;
 
   opts: ISlimScrollOptions;
   public url;
@@ -24,21 +28,29 @@ export class SidebarComponent implements OnInit {
   callView: boolean = false;
   taskView: boolean = false;
 
-  public permission = {
-    use_user_view: "0",
-    use_customer_view: "0",
-    use_product_view: "0",
-    use_order_view: "0",
-    use_delivery_view: "0",
-    use_stock_view: "0",
-    use_report: "0",
-    use_report_order: "0",
-    use_report_product: "0",
-    use_report_delivery: "0"
-  };
+  public permission: any = {
+    user: false,
+    member: false,
+    category: false,
+    product: false,
+    order: false,
+    payment: false,
+    packing: false,
+    delivery: false,
+    cancel: false,
+    stock: false,
+    blog: false,
+    new: false,
+    setting: false,
+  }
 
+  public alert: any = {
+    order_payment: 5,
+    order_packing: 4,
+    order_delivery: 3
+  }
 
-  constructor(private location: Location, private router: Router, private activatedRoute: ActivatedRoute, private renderer: Renderer2) {
+  constructor(private location: Location, private router: Router, private activatedRoute: ActivatedRoute, private renderer: Renderer2, private http: HttpClient, private service: AppService) {
 
     router.events.subscribe((event: Event) => {
 
@@ -61,21 +73,6 @@ export class SidebarComponent implements OnInit {
         $('.sidebar-overlay').removeClass('opened');
         $('.task-overlay').removeClass('opened');
 
-
-        this.permission.use_user_view = localStorage.getItem('use_user_view');
-        this.permission.use_customer_view = localStorage.getItem('use_customer_view');
-        this.permission.use_product_view = localStorage.getItem('use_product_view');
-        this.permission.use_order_view = localStorage.getItem('use_order_view');
-        this.permission.use_delivery_view = localStorage.getItem('use_delivery_view');
-        this.permission.use_stock_view = localStorage.getItem('use_stock_view');
-        this.permission.use_report_order = localStorage.getItem('use_report_order');
-        this.permission.use_report_product = localStorage.getItem('use_report_product');
-        this.permission.use_report_delivery = localStorage.getItem('use_report_delivery');
-
-        if(this.permission.use_report_order == '1' || this.permission.use_report_product == '1'|| this.permission.use_report_delivery == '1')
-        {
-          this.permission.use_report = '1';
-        }
       }
 
       if (event instanceof NavigationError) {
@@ -103,6 +100,22 @@ export class SidebarComponent implements OnInit {
     $(window).resize(function () {
       var h = $(window).height() - 60;
       $('.slimscroll-wrapper').height(h);
+    });
+
+    this.headers = new HttpHeaders();
+    this.headers = this.headers.append('Authorization', "Bearer " + localStorage.getItem('token_admin'));
+
+
+    this.http.post<any>(this.service.url + '/api/get_user_permission_back', {}, { headers: this.headers }).subscribe(res => {
+      if (res.code == 200) {
+        this.permission = res.data;
+      }
+    });
+
+    this.http.post<any>(this.service.url + '/api/get_alert_back', {}, { headers: this.headers }).subscribe(res => {
+      if (res.code == 200) {
+        this.alert = res.data;
+      }
     });
 
 

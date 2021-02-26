@@ -3,46 +3,46 @@
   <div class="sidebar-inner slimscroll-wrap" slimScroll [options]="opts">
     <div id="sidebar-menu" class="sidebar-menu">
       <ul *ngIf="homeView">
-        <!-- <li [ngClass]="[url === 'dashboard'? 'active' : 'inactive',url === ''? 'active' : 'inactive']">
-                <a routerLink="dashboard"><i class="la la-dashboard"></i> <span> Dashboard </span></a>
-              </li> -->
-        <li [ngClass]="url === 'user'? 'active' : 'null'">
+        <li [ngClass]="[url === 'dashboard'? 'active' : 'inactive',url === ''? 'active' : 'inactive']">
+          <a routerLink="dashboard"><i class="la la-dashboard"></i> <span> หน้าหลัก </span></a>
+        </li>
+        <li [ngClass]="url === 'user'? 'active' : 'null'" *ngIf="permission.user == true">
           <a routerLink="user"><i class="la la-user"></i> <span> ผู้ใช้งาน </span></a>
         </li>
-        <li [ngClass]="url === 'member'? 'active' : 'null'">
+        <li [ngClass]="url === 'member'? 'active' : 'null'" *ngIf="permission.member == true">
           <a routerLink="member"><i class="la la-users"></i> <span> สมาชิก </span></a>
         </li>
-        <li [ngClass]="url === 'category'? 'active' : 'null'">
+        <li [ngClass]="url === 'category'? 'active' : 'null'" *ngIf="permission.category == true">
           <a routerLink="category"><i class="la la-tags"></i> <span> หมวดหมู่สินค้า </span></a>
         </li>
-        <li [ngClass]="url === 'product'? 'active' : 'null'">
+        <li [ngClass]="url === 'product'? 'active' : 'null'" *ngIf="permission.product == true">
           <a routerLink="product"><i class="la la-box"></i> <span> สินค้า </span></a>
         </li>
-        <li [ngClass]="url === 'order'? 'active' : 'null'">
+        <li [ngClass]="url === 'order'? 'active' : 'null'" *ngIf="permission.order == true">
           <a routerLink="order"><i class="la la-file-alt"></i> <span> รายการสั่งซื้อ </span></a>
         </li>
-        <li [ngClass]="url === 'payment'? 'active' : 'null'">
-          <a routerLink="payment"><i class="la la-dollar-sign"></i> <span> ชำระเงิน </span></a>
+        <li [ngClass]="url === 'payment'? 'active' : 'null'" *ngIf="permission.payment == true">
+          <a routerLink="payment"><i class="la la-dollar-sign"></i> <span> ชำระเงิน </span><span class="badge badge-danger" *ngIf="alert.order_payment > 0">{{alert.order_payment}}</span></a>
         </li>
-        <li [ngClass]="url === 'packing'? 'active' : 'null'">
-          <a routerLink="packing"><i class="la la-boxes"></i> <span> บรรจุสินค้า </span></a>
+        <li [ngClass]="url === 'packing'? 'active' : 'null'" *ngIf="permission.packing == true">
+          <a routerLink="packing"><i class="la la-boxes"></i> <span> บรรจุสินค้า </span><span class="badge badge-danger" *ngIf="alert.order_packing > 0">{{alert.order_packing}}</span></a>
         </li>
-        <li [ngClass]="url === 'delivery'? 'active' : 'null'">
-          <a routerLink="delivery"><i class="la la-truck"></i> <span> จัดส่ง </span></a>
+        <li [ngClass]="url === 'delivery'? 'active' : 'null'" *ngIf="permission.delivery == true">
+          <a routerLink="delivery"><i class="la la-truck"></i> <span> จัดส่ง </span><span class="badge badge-danger" *ngIf="alert.order_delivery > 0">{{alert.order_delivery}}</span></a>
         </li>
-        <li [ngClass]="url === 'cancel'? 'active' : 'null'">
+        <li [ngClass]="url === 'cancel'? 'active' : 'null'" *ngIf="permission.cancel == true">
           <a routerLink="cancel"><i class="la la-window-close"></i> <span> ยกเลิกสั่งซื้อ </span></a>
         </li>
-        <li [ngClass]="url === 'stock'? 'active' : 'null'">
+        <li [ngClass]="url === 'stock'? 'active' : 'null'" *ngIf="permission.stock == true">
           <a routerLink="stock"><i class="la la-dolly"></i> <span> คลังสินค้า </span></a>
         </li>
-        <li [ngClass]="url === 'blog'? 'active' : 'null'">
+        <li [ngClass]="url === 'blog'? 'active' : 'null'" *ngIf="permission.blog == true">
           <a routerLink="blog"><i class="la la-blog"></i> <span> บล็อก </span></a>
         </li>
-        <li [ngClass]="url === 'new'? 'active' : 'null'">
+        <li [ngClass]="url === 'new'? 'active' : 'null'" *ngIf="permission.new == true">
           <a routerLink="new"><i class="la la-newspaper"></i> <span> ข่าวสาร </span></a>
         </li>
-        <li [ngClass]="url === 'setting'? 'active' : 'null'">
+        <li [ngClass]="url === 'setting'? 'active' : 'null'" *ngIf="permission.setting == true">
           <a routerLink="setting"><i class="la la-cog"></i> <span> ตั้งค่าเว็บ </span></a>
         </li>
         <!-- <li *ngIf="permission.use_product_view == '1'" [ngClass]="url === 'product'? 'active' : 'null'">

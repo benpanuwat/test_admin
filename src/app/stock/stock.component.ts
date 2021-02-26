@@ -6,6 +6,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { Stock } from '../model/stock';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 declare const $: any;
@@ -100,19 +101,26 @@ export class StockComponent implements OnInit {
   }
 
 
-  clickShowAddProduct(stock) {
+  clickShowAddStock(stock) {
     this.stock = {
       id: '',
       product_type: [
         {
           id: '',
-          stock: 0
+          stock: 0,
+          receive: 0
         }
       ]
     }
 
     this.http.post<any>(this.service.url + '/api/get_stock_detail', stock, { headers: this.headers }).subscribe(res => {
       if (res.code == 200) {
+        this.stock = res.data;
+
+        this.stock.product_type.forEach(value => {
+          value.receive = 0;
+        });
+
         this.loading = false;
         $('#add_stock').modal('show');
       }
@@ -121,18 +129,27 @@ export class StockComponent implements OnInit {
 
   clickAddStock(f) {
 
-    if (f.invalid === true) {
-      this.showMassageAlert("กรุณากรอกข้อมูลให้ครับถ้วน");
-    }
-    else {
+    let status = false;
+    this.stock.product_type.forEach(value => {
+      if (value.receive == '')
+        value.receive = 0;
 
-      this.http.post<any>(this.service.url + '/api/create_product_back', this.stock, { headers: this.headers }).subscribe(data => {
-        if (data.status) {
+      if (value.receive != 0)
+        status = true;
+    });
+
+    if (status) {
+      this.http.post<any>(this.service.url + '/api/update_stock_back', this.stock, { headers: this.headers }).subscribe(res => {
+        if (res.code == 200) {
           this.rerender();
-          $('#add_product').modal('hide');
+          $('#add_stock').modal('hide');
         }
       });
     }
+    else {
+      this.showMassageAlert("กรุณากำหนดจำนวนสินค้าที่นำเข้า");
+    }
+
   }
 
   // clickShowUpdateProduct(product) {

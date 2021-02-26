@@ -38,12 +38,14 @@ import { StockComponent } from './stock/stock.component';
 import { BlogComponent } from './blog/blog.component';
 import { NewComponent } from './new/new.component';
 import { SettingComponent } from './setting/setting.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 enableProdMode();
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
   { path: 'member', component: MemberComponent, canActivate: [AuthGuard] },
   { path: 'category', component: CategoryComponent, canActivate: [AuthGuard] },
@@ -80,6 +82,7 @@ const routes: Routes = [
     BlogComponent,
     NewComponent,
     SettingComponent,
+    DashboardComponent,
   ],
   imports: [
     HttpClientModule,

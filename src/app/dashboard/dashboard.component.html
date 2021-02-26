@@ -1,0 +1,69 @@
+<div class="page-wrapper" id="dashboard_wrapper">
+  <div class="content container-fluid">
+    <div class="row">
+      <div class="col-md-6 col-sm-6 col-lg-3">
+        <div class="dash-widget clearfix card-box">
+          <span class="dash-widget-icon"><i class="fa fa-user" aria-hidden="true"></i></span>
+          <div class="dash-widget-info">
+            <h3>{{dash.employees}}</h3>
+            <span>User</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-lg-3">
+        <div class="dash-widget clearfix card-box">
+          <span class="dash-widget-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
+          <div class="dash-widget-info">
+            <h3>{{dash.projects}}</h3>
+            <span>Member</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-lg-3">
+        <div class="dash-widget clearfix card-box">
+          <span class="dash-widget-icon"><i class="fa fa-cubes" aria-hidden="true"></i></span>
+          <div class="dash-widget-info">
+            <h3>{{dash.clients}}</h3>
+            <span>Pruduct</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6 col-lg-3">
+        <div class="dash-widget clearfix card-box">
+          <span class="dash-widget-icon"><i class="fa fa-list-alt"></i></span>
+          <div class="dash-widget-info">
+            <h3>{{dash.tasks}}</h3>
+            <span>Order</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 outer-barchart text-center">
+        <div class="card-box" id="card_barchart">
+          <h4 class="card-title barchart-title">Total Revenue</h4>
+          <div id="bar-charts"></div>
+        </div>
+      </div>
+      <div class="col-md-6 text-center">
+        <div class="card-box">
+          <h4 class="card-title">Sales Overview</h4>
+          <div id="line-charts"></div>
+        </div>
+      </div>
+      <div class="col-md-6 text-center">
+        <div class="card-box">
+          <h4 class="card-title">Invoice Status</h4>
+          <div id="area-charts"></div>
+        </div>
+      </div>
+      <div class="col-md-6 text-center">
+        <div class="card-box">
+          <h4 class="card-title">Overall Status</h4>
+          <div id="pie-charts"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
