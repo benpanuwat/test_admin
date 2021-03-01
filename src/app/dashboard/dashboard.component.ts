@@ -1,7 +1,8 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { IMyDpOptions } from 'mydatepicker';
-import { AppService } from '../app.service';
 import { Router, ActivatedRoute, Event, NavigationStart, NavigationEnd } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AppService } from 'src/app/app.service';
 
 declare const $: any;
 declare const Morris: any;
@@ -12,6 +13,19 @@ declare const Morris: any;
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  public headers: HttpHeaders;
+
+  public data = {
+    count: {
+      user: 0,
+      member: 0,
+      product: 0,
+      order: 0
+    },
+    chart1: [],
+    chart2: []
+  }
 
   public myDatePickerOptions: IMyDpOptions = {
     todayBtnTxt: 'Today',
@@ -30,7 +44,7 @@ export class DashboardComponent implements OnInit {
   public model: any = { date: { year: 2018, month: 10, day: 9 } };
   public dash: any = { 'projects': 112, 'clients': 44, 'tasks': 37, 'employees': 218 };
 
-  constructor(private appService: AppService, private router: Router) {
+  constructor(private http: HttpClient, private service: AppService, private router: Router) {
     //this.projects = appService.projects;
     //this.clients = appService.clients;
     //this.invoices = appService.invoices;
@@ -42,6 +56,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.headers = new HttpHeaders();
+    this.headers = this.headers.append('Authorization', localStorage.getItem('token_admin'));
 
     var pro_heights = $(".panel-eqHeight-clients").map(function () {
       return $(this).height();
@@ -57,95 +74,39 @@ export class DashboardComponent implements OnInit {
     $(".panel-eqHeight-payments").height(pay_maxHeight);
     $(".panel-eqHeight-invoices").height(pay_maxHeight);
 
-    // Area Chart
-	
-    Morris.Area({
-      element: 'area-charts',
-      data: [
-        { y: '2006', a: 100, b: 90 },
-        { y: '2007', a: 75,  b: 65 },
-        { y: '2008', a: 50,  b: 40 },
-        { y: '2009', a: 75,  b: 65 },
-        { y: '2010', a: 50,  b: 40 },
-        { y: '2011', a: 75,  b: 65 },
-        { y: '2012', a: 100, b: 90 }
-      ],
-      xkey: 'y',
-      ykeys: ['a', 'b'],
-      labels: ['Total Invoice', 'Pending Invoice'],
-      lineColors: ['#ff9b44','#fc6075'],
-      lineWidth: '3px',
-      resize: true,
-      redraw: true
-      });
-  
-    // Bar Chart
-    
-    Morris.Bar({
-      element: 'bar-charts',
-      data: [
-        { y: '2006', a: 100, b: 90 },
-        { y: '2007', a: 75,  b: 65 },
-        { y: '2008', a: 50,  b: 40 },
-        { y: '2009', a: 75,  b: 65 },
-        { y: '2010', a: 50,  b: 40 },
-        { y: '2011', a: 75,  b: 65 },
-        { y: '2012', a: 100, b: 90 }
-      ],
-      xkey: 'y',
-      ykeys: ['a', 'b'],
-      labels: ['Total Income', 'Total Outcome'],
-      lineColors: ['#ff9b44','#fc6075'],
-      lineWidth: '3px',
-      barColors: ['#ff9b44','#fc6075'],
-      resize: true,
-      redraw: true
-    });
-    
-    // Line Chart
-    
-    Morris.Line({
-      element: 'line-charts',
-      data: [
-        { y: '2006', a: 50, b: 90 },
-        { y: '2007', a: 75,  b: 65 },
-        { y: '2008', a: 50,  b: 40 },
-        { y: '2009', a: 75,  b: 65 },
-        { y: '2010', a: 50,  b: 40 },
-        { y: '2011', a: 75,  b: 65 },
-        { y: '2012', a: 100, b: 50 }
-      ],
-      xkey: 'y',
-      ykeys: ['a', 'b'],
-      labels: ['Total Sales', 'Total Revenue'],
-      lineColors: ['#ff9b44','#fc6075'],
-      lineWidth: '3px',
-      resize: true,
-      redraw: true
-    });
-    
-    // Donut Chart
-      
-    Morris.Donut({
-      element: 'pie-charts',
-      colors: [
-        '#ff9b44',
-        '#fc6075',
-        '#ffc999',
-        '#fd9ba8'
-      ],
-      data: [
-        {label: "Employees", value: 30},
-        {label: "Clients", value: 15},
-        {label: "Projects", value: 45},
-        {label: "Tasks", value: 10}
-      ],
-      resize: true,
-      redraw: true
+    this.http.post<any>(this.service.url + '/api/get_dashboard_back', {}, { headers: this.headers }).subscribe(res => {
+      if (res.code == 200) {
+        this.data = res.data;
+
+        Morris.Bar({
+          element: 'bar-charts',
+          data: this.data.chart1,
+          xkey: 'month_text',
+          ykeys: ['member_count', 'order_count'],
+          labels: ['ลูกค้าใหม่', 'คำสั่งซื้อใหม่'],
+          lineColors: ['#ff9b44', '#fc6075'],
+          lineWidth: '3px',
+          barColors: ['#ff9b44', '#fc6075'],
+          resize: true,
+          redraw: true
+        });
+
+        Morris.Donut({
+          element: 'pie-charts',
+          data: this.data.chart2,
+          resize: true,
+          redraw: true
+        });
+
+      }
+      else if (res.code == 401) {
+        localStorage.clear();
+        window.location.href = "login";
+      }
     });
 
   }
 
-  
+
 
 }

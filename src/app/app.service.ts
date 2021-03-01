@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 
 export class AppService {
 
-  public url = "https://www.truelinemed.com/api/public";
-  //public url = "http://127.0.0.1:8000";
+  //public url = "https://www.truelinemed.com/api/public";
+  public url = "http://127.0.0.1:8000";
 
   public dbLanguage = {
     processing: "ประมวลผล...",
